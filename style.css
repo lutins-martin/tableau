@@ -1,0 +1,129 @@
+/*
+Réjean Prévost - Juillet 2008
+*/
+
+html{
+color:#000;
+background:#fff;
+font-size: 100%; /* WinIE text resize correction */
+}
+
+body,div,h1,h2,h3,h4,h5,h6,p {
+margin: 0em 0em 0em 0em;
+padding: 0em 0em 0em 0em;
+}
+
+body {
+font-size: 1em;
+font-family: georgia,arial,helvetica,sans-serif;
+text-align:center;
+}
+
+#wrapper{
+margin:auto;
+text-align:left;
+width:40em;
+}
+
+.container{
+display: block;
+margin: 0em 0em 0em 0em;
+}
+
+.boxes .box{
+float:left;
+width:12.98em;
+margin-left:.5em;
+}
+.boxes div.first {
+margin-left:0em;
+padding-left: 0em;
+}
+.main{
+background-color:#fff;
+border-top:#fff .3em solid;
+border-bottom:#fff .7em solid;
+margin: 0em 0em 0em 0em;
+padding: 0em 0em 0em 0em;
+font-size: 1.2em;
+word-spacing: -.05em;
+line-height: 1.2em;
+text-align:center;
+}
+
+#header{
+height:3em;
+background-color:#fff;
+margin:.25em 0em 0em 0em;
+padding:.25em 0em 0em 0em;
+text-align:center;
+letter-spacing: -0.05em;
+font-size: 1.8em;
+line-height: 1.2em;
+font-family: georgia,arial,helvetica,sans-serif;
+}
+
+#ft{
+clear:both;
+}
+
+#footer{
+background-color:#fff;
+border-top:#fff .5em solid;
+margin: 0em 0em 0em 0em;
+padding: 0em 0em 0em 0em;
+text-align:center;
+font-size: .8em;
+}
+
+img{
+border:none;
+width: 10.8em;
+height: 10.32em;
+}
+
+a img{
+border:none;
+width: 6.875em;
+height: 2.422em;
+margin-top: 1em;
+}
+
+a:focus
+{
+-moz-outline-style: none;
+}
+
+h1 {
+	font-size:1.4em;  
+}
+
+h2 {
+	font-size:1.3em; 
+}
+h3 {
+	font-size:1.2em;  
+}
+h1,h2,h3 {
+	margin:1em 0;
+}
+h1,h2,h3,h4,h5,h6,strong {
+	font-weight:bold; 
+}
+
+.name {
+font-size:1em;
+line-height: 1em;
+}
+
+.price {
+font-size:.9em;
+line-height: 1em;
+font-family: verdana,arial,helvetica,sans-serif;
+}
+
+.number {
+font-size:.7em;
+line-height: 1em;
+font-family: arial,helvetica,sans-serif;	
+}
