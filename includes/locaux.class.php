@@ -7,8 +7,8 @@ class Locaux
     const CREATELOCAUX = "create table LOCAUX (NOM text)" ;
     const SELECTLOCAUX = "select ROWID from LOCAUX" ;
 
-    const CREATEEDUCATRICES_DANS_LOCAUX = "create table EDUCATRICES_DANS_LOCAUX
-    (EDUCATRICE_ROWID,LOCAL_ROWID" ;
+    const CREATEGROUPES_DANS_LOCAUX = "create table GROUPES_DANS_LOCAUX
+    (GROUPE number,LOCAL number)" ;
     // Store the single instance of Database
     private static $m_pInstance;
     private static $db ;
@@ -23,22 +23,11 @@ class Locaux
         if(count($existsRec)==0) self::$db->query(self::CREATELOCAUX) ;
 
         $existsStm = self::$db->query("select name from sqlite_master where type='table'
-        AND name='EDUCATRICES_DANS_LOCAUX'") ;
-        $existsRec = $existsStm->fetachAll(PDO::FETCH_ASSOC) ;
+        AND name='GROUPES_DANS_LOCAUX'") ;
+        $existsRec = $existsStm->fetchAll(PDO::FETCH_ASSOC) ;
 
-        if(count($existsRec)==0) self::$db->query(self::CREATEEDUCATRICES_DANS_LOCAUX) ;
+        if(count($existsRec)==0) self::$db->query(self::CREATEGROUPES_DANS_LOCAUX) ;
 
-        $firePHP = FirePHP::getInstance() ;
-        $firePHP->log(self::CREATELOCAUX,'CREATELOCAUX') ;
-        $lesLocauxStm = self::$db->query(self::SELECTLOCAUX) ;
-        $firePHP->log(self::SELECTLOCAUX,'SELECTLOCAUX all') ;
-        $lesUid = $lesLocauxStm->fetchAll(PDO::FETCH_COLUMN) ;
-
-        $firePHP->log($lesUid,'les UID') ;
-        foreach($lesUid as $uid)
-        {
-            self::$listeLocaux[$uid] = new Local($uid) ;
-        }
     }
 
     public static function getInstance()
@@ -51,9 +40,33 @@ class Locaux
         return self::$m_pInstance;
     }
 
+    public static function getUnLocal($id)
+    {
+        if(!isset(self::$listeLocaux[$id]))
+        {
+            $local = new Local($id) ;
+            if ($local->isLoaded()) self::$listeLocaux[$id] = $local ;
+        }
+
+        if(isset(self::$listeLocaux[$id])) return self::$listeLocaux[$id] ;
+        else return false ;
+    }
+
     public static function getLesLocaux()
     {
+        $lesLocauxStm = self::$db->query(self::SELECTLOCAUX) ;
+        $lesUid = $lesLocauxStm->fetchAll(PDO::FETCH_COLUMN) ;
+
+        foreach($lesUid as $uid)
+        {
+            if (!isset(self::$listeLocaux[$uid])) self::$listeLocaux[$uid] = new Local($uid) ;
+        }
+
         return self::$listeLocaux ;
     }
 
+    public function register(Local $local)
+    {
+        if (!isset(self::$listeLocaux[$local->getId()])) self::$listeLocaux[$local->getId()] = $local;
+    }
 }

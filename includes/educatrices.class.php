@@ -22,10 +22,7 @@ class Educatrices
             self::$db->query(self::CREATE) ;
         }
 
-        $firePHP = FirePHP::getInstance() ;
-        $firePHP->log(self::CREATE,'create') ;
         $lesEducatricesStm = self::$db->query(self::SELECT) ;
-        $firePHP->log(self::SELECT,'select all') ;
         $lesUid = $lesEducatricesStm->fetchAll(PDO::FETCH_COLUMN) ;
 
         foreach($lesUid as $uid)
@@ -44,9 +41,19 @@ class Educatrices
         return self::$m_pInstance;
     }
 
+    public static function getUneEducatrice($id)
+    {
+        if(isset(self::$listeEducatrices[$id])) return self::$listeEducatrices[$id] ;
+        else return new Educatrice() ;
+    }
+
     public static function getLesEducatrices()
     {
         return self::$listeEducatrices ;
     }
 
+    public function register(Educatrice $educatrice)
+    {
+        if (!isset(self::$listeEducatrices[$educatrice->getId()])) self::$listeEducatrices[$educatrice->getId()] = $educatrice ;
+    }
 }

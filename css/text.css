@@ -88,3 +88,8 @@ fieldset {
 	border: thin solid black ;
 	padding: .2em ;
 }
+
+.pied {
+	position:relative ;
+	top: 60px;
+}

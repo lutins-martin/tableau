@@ -15,6 +15,8 @@ abstract class Element
     protected function __construct($nomOrId,$querySelectParNom,
     $querySelectParId,$queryInsert,$queryUpdate,$queryDelete)
     {
+        $this->db = Database::getInstance() ;
+
         $this->querySelectParId= $querySelectParId;
         $this->querySelectParNom = $querySelectParNom ;
         $this->queryInsert = $queryInsert ;
@@ -36,12 +38,16 @@ abstract class Element
                 $values[":nom"] = $nomOrId ;
             }
 
-            $this->db = Database::getInstance() ;
             $loadStatement = $this->db->prepare($query) ;
             $loadStatement->execute($values) ;
             $record = $loadStatement->fetch(PDO::FETCH_ASSOC) ;
 
             $this->loadFromDatabaseRecord($record) ;
+        }
+        else
+        {
+            $this->nom="&nbsp;" ;
+            $this->id=0 ;
         }
     }
 
@@ -67,6 +73,7 @@ abstract class Element
 
     public function save()
     {
+        $firePHP = FirePHP::getInstance() ;
         $values[":nom"] = $this->nom ;
         if($this->loaded)
         {
@@ -77,6 +84,8 @@ abstract class Element
             $query = $this->queryInsert ; //self::INSERT ;
         $saveStatement = $this->db->prepare($query) ;
         $saveStatement->execute($values) ;
+        $rowId=$saveStatement->fetch(PDO::FETCH_COLUMN) ;
+        if($rowId) $this->id = $rowId ;
     }
 
     public function getId()
