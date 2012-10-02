@@ -13,44 +13,46 @@ catch(Exception $e)
   die($error);
 }
 
-$lesLocaux = Locaux::getInstance() ;
-$listeLocaux = $lesLocaux->getLesLocaux() ;
+$lesGroupes = Groupes::getInstance() ;
+$listeGroupes = $lesGroupes->getLesGroupes() ;
 $firePHP->log($_REQUEST,'param') ;
-$locauxAChanger=(isset($_REQUEST['item'])?$_REQUEST['item']:null) ;
+$groupesAChanger=(isset($_REQUEST['item'])?$_REQUEST['item']:null) ;
 
 
-if (is_array($locauxAChanger))
+if (is_array($groupesAChanger))
 {
     $processed = false ;
 
-    foreach($locauxAChanger as $localId => $newLocal)
+    foreach($groupesAChanger as $groupeId => $newgroupe)
     {
-        if(isset($newLocal['efface']))
+        if(isset($newgroupe['efface']))
         {
-            $local = $lesLocaux->getUnLocal($localId) ;
-            if($local->isLoaded()) $local->delete() ;
+            $groupe = $lesGroupes->getUnGroupe($groupeId) ;
+            if($groupe->isLoaded()) $groupe->delete() ;
 
             $processed = true ;
-            unset($locauxAChanger[$localId]) ;
+            unset($groupesAChanger[$groupeId]) ;
             continue ;
         }
-        if(isset($newLocal['nom']))
+        if(isset($newgroupe['nom']))
         {
-            if(!is_null($newLocal['nom']) && trim($newLocal['nom'])!="")
+            if(!is_null($newgroupe['nom']) && trim($newgroupe['nom'])!="")
             {
-                $local = $lesLocaux->getUnLocal($localId) ;
-                if($newLocal['nom']!=$local->getNom())
+                $groupe = $lesGroupes->getUnGroupe($groupeId) ;
+                $firePHP->log($groupe,'object groupe') ;
+                if($newgroupe['nom']!=$groupe->getNom())
                 {
-                    $local->setNom($newLocal['nom']) ;
-                    $local->save() ;
+                    $groupe->setNom($newgroupe['nom']) ;
+                    $groupe->save() ;
                     $processed = true ;
+                    $firePHP->log($groupe,'object groupe') ;
                 }
             }
         }
     }
     if ($processed)
     {
-        header("Location: locaux.php") ;
+        header("Location: groupes.php") ;
         exit ;
     }
 }
@@ -64,39 +66,39 @@ if (is_array($locauxAChanger))
     <link rel="stylesheet" type="text/css" media="all" href="css/1248_16_10_10.css" />
     <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
     <script type="text/javascript" src="js/ajoute.js"></script>
-    <title>Ajouter/changer les locaux</title>
+    <title>Ajouter/changer les groupes</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
 <div id="wrapper" class="row">
     <div id="hd">
-        <h1 id="header">Ajouter/changer les locaux</h1>
+        <h1 id="header">Ajouter/changer les groupes</h1>
     </div>
 </div>
-<form action="locaux.php" method="post">
+<form action="groupes.php" method="post">
 <div class="row">
     <div class="column grid_3 framedInRed">cliquez pour effacer</div>
-    <div class="column grid_4 framedInBlue">nom des locaux</div>
+    <div class="column grid_4 framedInBlue">nom des groupes</div>
 </div>
 <?php
-if(count($listeLocaux))
+if(count($listeGroupes))
 {
-    foreach($listeLocaux as $local)
+    foreach($listeGroupes as $groupe)
     {
 ?>
 <div class="row">
-			<div id="localEfface<?=$local->getId()?>"
+			<div id="groupeEfface<?=$groupe->getId()?>"
 				class="column grid_3 framedInRed">
 <?
-        $effaceBox = new CheckBoxNode(array("name" => "item[{$local->getId()}][efface]")) ;
+        $effaceBox = new CheckBoxNode(array("name" => "item[{$groupe->getId()}][efface]")) ;
         print $effaceBox->display() ;
 ?>
 			</div>
-		    <div id="localNom<?=$local->getId()?>"
+		    <div id="groupeNom<?=$groupe->getId()?>"
 		       class="column grid_4 framedInBlue">
 <?php
-        $boiteDuNom = new TextBoxNode(array("name" => "item[{$local->getId()}][nom]",
-        "value" => $local->getNom())) ;
+        $boiteDuNom = new TextBoxNode(array("name" => "item[{$groupe->getId()}][nom]",
+        "value" => $groupe->getNom())) ;
         print $boiteDuNom->display() ;
 ?>
 		       </div>
@@ -107,13 +109,13 @@ if(count($listeLocaux))
 ?>
 <div class="row">
     <div class="column grid_3">
-    Nouveau local:
+    Nouveau groupe:
     </div>
     <div class="column grid_4">
 <?php
     $nouvelleBoiteDuNom = new TextBoxNode(array("name" => "item[][nom]")) ;
     print $nouvelleBoiteDuNom->display() ;
-    $plus = new ButtonNode(array("name" => "ajoute","value" => "+","title" => "cliquer ici pour ajouter un autre local")) ;
+    $plus = new ButtonNode(array("name" => "ajoute","value" => "+","title" => "cliquer ici pour ajouter un autre groupe")) ;
     print $plus->display() ;
 ?>
     </div>

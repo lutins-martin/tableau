@@ -42,7 +42,7 @@ class Groupes
         }
 
         if(isset(self::$listeGroupes[$id])) return self::$listeGroupes[$id] ;
-        else return false ;
+        else return new Groupe() ;
 
     }
 

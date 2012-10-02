@@ -49,7 +49,7 @@ class Locaux
         }
 
         if(isset(self::$listeLocaux[$id])) return self::$listeLocaux[$id] ;
-        else return false ;
+        else return new Local() ;
     }
 
     public static function getLesLocaux()

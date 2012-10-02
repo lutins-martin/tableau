@@ -51,6 +51,13 @@ abstract class Element
         }
     }
 
+    public function delete()
+    {
+        $deleteStm = $this->db->prepare($this->queryDelete) ;
+        $deleteStm->execute(array(":rowid" => $this->id)) ;
+        $this->loaded = false ;
+    }
+
     public function loadFromDatabaseRecord($record)
     {
         if (isset($record['NOM']))

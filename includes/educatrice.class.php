@@ -44,6 +44,11 @@ class Educatrice extends Element
         else return new Groupe();
     }
 
+    public function setGroupe(Groupe $groupe)
+    {
+        $this->groupe = $groupe ;
+    }
+
     public function getLocal()
     {
         return $this->getGroupe()->getLocal() ;

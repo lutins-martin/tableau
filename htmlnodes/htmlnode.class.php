@@ -16,7 +16,7 @@ class HtmlNode
 
     public function __construct($nodeName,$attributes=null)
     {
-        $this->nodeName = $nodeName ;
+        $this->nodeName = strtolower($nodeName) ;
         if(!is_null($attributes)) $this->attributes = $attributes ;
     }
 
@@ -25,7 +25,7 @@ class HtmlNode
         $output="" ;
         foreach($this->attributes as $name => $value)
         {
-            $output .= " $name=\"$value\"" ;
+            $output .= " {strtolower($name}}=\"$value\"" ;
         }
     }
 
@@ -55,7 +55,7 @@ class HtmlNode
             }
         }
 
-        $output .= "</$this->nodeName>" ;
+        $output .= "</$this->nodeName>\n" ;
         return $output ;
     }
 

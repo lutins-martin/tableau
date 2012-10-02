@@ -26,6 +26,8 @@ class Groupe extends Element
 
     public function save()
     {
+        parent::save() ;
+
         if(isset($this->local) && ($this->local instanceof Local))
         {
             $existsGroupe_Dans_Local = $this->db->prepare("select LOCAL from GROUPES_DANS_LOCAUX where

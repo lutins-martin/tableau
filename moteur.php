@@ -17,25 +17,56 @@ $lesLocaux=Locaux::getInstance() ;
 $lesEducatrices=Educatrices::getInstance() ;
 
 $firePHP = FirePHP::getInstance() ;
-switch ($_REQUEST['deplacement'])
+$deplacement = (isset($_REQUEST['deplacement'])?$_REQUEST['deplacement']:"relecture") ;
+switch ($deplacement)
 {
     case 'local' :
-        $listeEducatrice=$_REQUEST['local'] ;
-        $firePHP->log($listeEducatrice,'educatrice') ;
-        if(is_array($listeEducatrice))
+        try
         {
-            $firePHP->trace(__FILE__.":".__LINE__) ;
-            foreach($listeEducatrice as $educatriceId => $localId)
+            $listeEducatrice=$_REQUEST['local'] ;
+            $firePHP->log($listeEducatrice,'educatrice') ;
+            if(is_array($listeEducatrice))
             {
-                $educatrice = $lesEducatrices->getUneEducatrice($educatriceId) ;
-                $firePHP->log($educatrice,'educatrice object') ;
-                if($educatrice->isLoaded())
+                $firePHP->trace(__FILE__.":".__LINE__) ;
+                foreach($listeEducatrice as $educatriceId => $localId)
                 {
-                    $educatrice->setLocal($localId) ;
-                    $educatrice->save() ;
+                    $educatrice = $lesEducatrices->getUneEducatrice($educatriceId) ;
+                    $firePHP->log($educatrice,'educatrice object') ;
+                    if($educatrice->isLoaded())
+                    {
+                        $educatrice->setLocal($localId) ;
+                        $educatrice->save() ;
+                    }
                 }
             }
+            print json_encode($output['resultat']=true) ;
         }
+        catch (Exception $e)
+        {
+            $output['resultat'] = false ;
+            $output['erreur'] = $e->getMessage() ;
+            print json_encode($output) ;
+        }
+        break;
+    case 'relecture' :
+        header("Content-type: application/json") ;
+        $tableau = array() ;
+        $listeEducatrices = $lesEducatrices->getLesEducatrices() ;
+        foreach($listeEducatrices  as $educatrice)
+        {
+            $edu['nom'] = $educatrice->getNom() ;
+            $edu['groupe']['nom'] = $educatrice->getGroupe()->getNom() ;
+            $edu['groupe']['id'] = $educatrice->getGroupe()->getId() ;
+            $edu['local']['nom'] = $educatrice->getGroupe()->getLocal()->getNom() ;
+            $edu['local']['id'] = $educatrice->getGroupe()->getLocal()->getId() ;
+            $tableau['locaux'][$educatrice->getId()] = $edu ;
+        }
+        print json_encode($tableau) ;
+        break;
+    default:
+        print json_encode($output['resultat']=true) ;
+        break ;
+
 }
 
 ?>
