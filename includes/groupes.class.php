@@ -5,7 +5,7 @@ class Groupes
     private static $listeGroupes ;
 
     const CREATEGROUPES = "create table GROUPES (NOM text)" ;
-    const SELECTGROUPES = "select ROWID from GROUPES" ;
+    const SELECTGROUPES = "select ROWID from (select NOM,ROWID from GROUPES order by NOM asc)" ;
 
     const CREATEEDUCATRICES_DANS_GROUPES = "create table EDUCATRICES_DANS_GROUPES
     (EDUCATRICE numeric,GROUPE numeric)" ;

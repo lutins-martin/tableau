@@ -5,7 +5,7 @@ class Locaux
     private static $listeLocaux ;
 
     const CREATELOCAUX = "create table LOCAUX (NOM text)" ;
-    const SELECTLOCAUX = "select ROWID from LOCAUX" ;
+    const SELECTLOCAUX = "select ROWID from (select NOM,ROWID from LOCAUX order by NOM asc)" ;
 
     const CREATEGROUPES_DANS_LOCAUX = "create table GROUPES_DANS_LOCAUX
     (GROUPE number,LOCAL number)" ;

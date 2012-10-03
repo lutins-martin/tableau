@@ -14,6 +14,7 @@ function ajouteUneSectionNouveau(eventObject)
 function enableOrDisableSubmitButton(eventObject)
 {
 	var enableSubmit = false ;
+
 	var theForm = eventObject.currentTarget.form ;
 	$(theForm).find("input,select").each(function(i,item)
 	{
@@ -61,7 +62,33 @@ function readyProcessor()
     $("form input,select").keyup(enableOrDisableSubmitButton) ;
     $("form input,select").click(enableOrDisableSubmitButton) ;
     $("form select").change(enableOrDisableSubmitButton) ;
-    
+
+    var listeBoutonSubmit = $("form input[type='submit']") ;
+    $(listeBoutonSubmit).click(function()
+	{
+    	var deleting = Array() ;
+    	var listCheckBox = $("form input[type='checkbox']") ;
+    	$(listCheckBox).each(function (i,checkBox)
+		{
+    		if(checkBox.checked)
+			{
+    			var rowParent = checkBox.parentNode.parentNode ;
+    			var label = $(rowParent).find("input[type='text']")[0].value ;
+    			deleting.push(label) ;
+			}    			
+		}) ;
+    	
+    	if(deleting.length>0)
+		{
+    		var confirmation = "Vous effacez:\n\n" ;
+    		for(entree in deleting)
+			{
+    			confirmation += "-> " + deleting[entree] + "\n" ;
+			}
+    		confirmation += "\nDésirez-vous continuer?" ;
+    		return confirm(confirmation) ;
+		}
+    }) ;
 
 } ;
 

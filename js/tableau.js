@@ -3,6 +3,11 @@ function receptionDesDonnees(data)
     if(data.locaux)
     {
         var locaux = data.locaux ;
+        var rangees= $("div[id^='educatrice']").length ;
+        var count=0 ;
+        for(local in locaux) { count++ } ;
+        if(count!=rangees) { location.reload() ; } ; /* change in count is too complex to handle, just reload the page */
+        
         for(educatriceId in locaux)
         {
             var divPourEducatrice = $("#educatrice"+educatriceId)[0] ;
@@ -41,14 +46,14 @@ function receptionDesDonnees(data)
 function fetchNouvellesDonnees()
 {
     $.ajax({
-    url : "moteur.php?deplacement=relecture",
-    success: receptionDesDonnees
+	    url : "moteur.php?deplacement=relecture",
+	    success: receptionDesDonnees
     });
-    setTimeout(fetchNouvellesDonnees,5000) ;
+    setTimeout(fetchNouvellesDonnees,15000) ;
 } ;
 
 $(document).ready(function ()
 		{
-             document.refreshDelay = setTimeout(fetchNouvellesDonnees,15000) ;
+             document.refreshDelay = setTimeout(fetchNouvellesDonnees,5000) ;
 		}
 ) ;

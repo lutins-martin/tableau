@@ -26,7 +26,7 @@ $lesEducatrices=Educatrices::getInstance() ;
     <link rel="stylesheet" type="text/css" media="all" href="css/text.css" />
     <link rel="stylesheet" type="text/css" media="all" href="css/1248_16_10_10.css" />
 
-    <title>Où sont les moussaillons?</title>
+    <title>indiquer oÃ¹ sont les moussaillons?</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="js/jquery-1.8.2.js" type="text/javascript"></script>
     <script src="js/tableau.js" type="text/javascript"></script>
@@ -46,7 +46,7 @@ $(document).ready(function()
 <body>
 <div id="wrapper" class="row">
     <div id="hd">
-        <h1 id="header">Où sont les moussaillons?</h1>
+        <h1 id="header">Dites moi, oÃ¹ sont les moussaillons?</h1>
     </div>
 </div>
 <?php

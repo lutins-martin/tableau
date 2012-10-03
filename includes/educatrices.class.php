@@ -5,7 +5,7 @@ class Educatrices
     private static $listeEducatrices ;
 
     const CREATE = "create table EDUCATRICES (NOM text)" ;
-    const SELECT = "select ROWID from EDUCATRICES" ;
+    const SELECT = "select ROWID from (select NOM,ROWID from EDUCATRICES order by NOM asc)" ;
     // Store the single instance of Database
     private static $m_pInstance;
     private static $db ;

@@ -122,7 +122,7 @@ if(count($listeGroupes))
 </div>
 <div class="row">
     <div class="column grid_9">
-        <input type="submit" value="appliquer les changements" disabled/>
+        <input type="submit" value="sauver les changements" disabled/>
         <input type="reset" value="remettre le formulaire à zéro"/>
     </div>
 </div>

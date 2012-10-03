@@ -141,14 +141,14 @@ if(count($listeEducatrices))
 <?php
     $nouvelleBoiteDuNom = new TextBoxNode(array("name" => "item[][nom]")) ;
     print $nouvelleBoiteDuNom->display() ;
-    $plus = new ButtonNode(array("name" => "ajoute","value" => "+","title" => "cliquer ici pour ajouter une autre �ducatrice(teur)")) ;
+    $plus = new ButtonNode(array("name" => "ajoute","value" => "+","title" => "cliquer ici pour ajouter une autre éducatrice(teur)")) ;
     print $plus->display() ;
 ?>
     </div>
 </div>
 <div class="row">
     <div class="column grid_9">
-        <input type="submit" value="appliquer les changements" disabled/>
+        <input type="submit" value="sauver les changements" disabled/>
         <input type="reset" value="remettre le formulaire à zéro"/>
     </div>
 </div>
