@@ -75,21 +75,3 @@ address,
 fieldset {
 	margin-bottom: 20px;
 }
-
-.framedInRed {
-	border: thin solid red ;
-}
-
-.framedInBlue {
-	border: thin solid blue ;
-}
-
-.framedInBlack {
-	border: thin solid black ;
-	padding: .2em ;
-}
-
-.pied {
-	position:relative ;
-	top: 60px;
-}

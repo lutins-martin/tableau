@@ -20,6 +20,13 @@ class Educatrice extends Element
 
     }
 
+    public function delete()
+    {
+        $deleteStm = $this->db->prepare("delete from EDUCATRICES_DANS_GROUPES where EDUCATRICE=:rowid") ;
+        $deleteStm->execute(array(":rowid" => $this->id)) ;
+        parent::delete() ;
+    }
+
     public function getGroupe()
     {
         $firePHP = FirePHP::getInstance(true) ;

@@ -17,6 +17,13 @@ class Local extends Element
         self::SELECT_PAR_ROWID,self::INSERT,self::UPDATE,self::DELETE) ;
     }
 
+    public function delete()
+    {
+        $deleteStm = $this->db->prepare("delete from GROUPES_DANS_LOCAUX where LOCAL=:rowid") ;
+        $deleteStm->execute(array(":rowid" => $this->id)) ;
+        parent::delete() ;
+    }
+
     public function getGroupes()
     {
         if (!isset($this->groupes) && !is_array($this->groupes))

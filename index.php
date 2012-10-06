@@ -59,6 +59,5 @@ if(count($listeEducatrices))
     }
 include("pieddepage.php") ;
 ?>
-
 </body>
 </html>

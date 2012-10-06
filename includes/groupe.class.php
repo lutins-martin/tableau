@@ -18,6 +18,16 @@ class Groupe extends Element
         self::SELECT_PAR_ROWID,self::INSERT,self::UPDATE,self::DELETE) ;
     }
 
+    public function delete()
+    {
+        $deleteStm = $this->db->prepare("delete from EDUCATRICES_DANS_GROUPES where GROUPE=:rowid") ;
+        $deleteStm->execute(array(":rowid" => $this->id)) ;
+
+        $deleteStm = $this->db->prepare("delete from GROUPES_DANS_LOCAUX where GROUPE=:rowid") ;
+        $deleteStm->execute(array(":rowid" => $this->id)) ;
+        parent::delete() ;
+    }
+
     private function registerToGroupes()
     {
         $groupes = Groupes::getInstance() ;

@@ -1,15 +1,15 @@
 <div id="pied" class="row pied">
-	<div id="petitpied" class="column grid_4">
+	<div id="petitpied" class="column grid_16">
 		<ul>
-			<li><a href="index.php">Retour au Tableau</a>
+			<li><a href="index.php">Tableau</a>
 			</li>
-			<li><a href="tableau.php">d&eacute;placements</a>
+			<li><a href="tableau.php">déplacements</a>
 			</li>
-			<li><a href="locaux.php">changer les locaux</a>
+			<li><a href="locaux.php">locaux</a>
 			</li>
-			<li><a href="groupes.php">changer les groupes</a>
+			<li><a href="groupes.php">groupes</a>
 			</li>
-			<li><a href="educatrices.php">changer les &eacute;ducatrices(eurs)</a>
+			<li><a href="educatrices.php">éducatrices(eurs)</a>
 			</li>
 		</ul>
 	</div>
