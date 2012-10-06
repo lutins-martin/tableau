@@ -36,14 +36,10 @@ function enableOrDisableSubmitButton(eventObject)
 		}
 		if(item.type=='select-one')
 		{
-			/* walk trough the options */
-			for(opt in item.options)
+			if(item.originalSelectedValue != $(item.options[item.selectedIndex]).val()) 
 			{
-				if(item.options[opt].selected!=item.options[opt].defaultSelected)
-				{
-					enableSubmit=true ;
-					return ;
-				}
+				enableSubmit=true ;
+				return ;
 			}
 		}
 	}) ;
@@ -62,6 +58,12 @@ function readyProcessor()
     $("form input,select").keyup(enableOrDisableSubmitButton) ;
     $("form input,select").click(enableOrDisableSubmitButton) ;
     $("form select").change(enableOrDisableSubmitButton) ;
+    
+    $("form select").each(function(i,select)
+    		{
+    			select.originalSelectedValue = $(select.options[select.selectedIndex]).val() ;
+    		}
+    		) ;
 
     var listeBoutonSubmit = $("form input[type='submit']") ;
     $(listeBoutonSubmit).click(function()
