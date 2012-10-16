@@ -14,6 +14,8 @@ catch(Exception $e)
 }
 
 $lesEducatrices=Educatrices::getInstance() ;
+$tableau_js_stat = stat("js/tableau.js") ;
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -26,15 +28,16 @@ $lesEducatrices=Educatrices::getInstance() ;
     <title>Où sont les moussaillons?</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
-    <script type="text/javascript" src="js/tableau.js">
+    <script type="text/javascript" src="js/tableau.js?r=<?=$tableau_js_stat['mtime']?>">
     </script>
 
 </head>
 <body>
-<div id="wrapper" class="row">
-    <div id="hd">
-        <h1 id="header">Où sont les moussaillons?</h1>
+<div id="dateheure" class="row">
+    <div class="column grid_12">
+        <h1 id="date" class="date"></h1>
     </div>
+    <div class="column grid_4"><h1 id="heure" class="heure"></h1></div>
 </div>
 <?php
 $listeEducatrices = $lesEducatrices->getLesEducatrices() ;

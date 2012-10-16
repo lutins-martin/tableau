@@ -17,6 +17,8 @@ catch(Exception $e)
 $lesGroupes=Groupes::getInstance() ;
 $lesLocaux=Locaux::getInstance() ;
 $lesEducatrices=Educatrices::getInstance() ;
+
+$tableau_js_stat = stat("js/tableau.js") ;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -29,7 +31,7 @@ $lesEducatrices=Educatrices::getInstance() ;
     <title>indiquer où sont les moussaillons?</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="js/jquery-1.8.2.js" type="text/javascript"></script>
-    <script src="js/tableau.js" type="text/javascript"></script>
+    <script src="js/tableau.js?r=<?=$tableau_js_stat['mtime']?>" type="text/javascript"></script>
     <script type="text/javascript">
 <!--
 $(document).ready(function()

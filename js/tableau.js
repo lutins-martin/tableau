@@ -1,3 +1,20 @@
+Date.prototype.getDateEnFrancais = function()
+{
+	var jourSemaine = Array("dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi") ;
+	var moisDeLannee = Array("janvier","février","mars","avril","mai","juin","juillet",
+			"août","septembre","octobre","novembre","décembre") ;
+	
+	var jour = this.getDay() ;
+	var mois = this.getMonth() ;
+	
+	return jourSemaine[jour] + ", le " + this.getDate().toLocaleString() + " " + moisDeLannee[mois] + " " + this.getFullYear() ; 
+}; 
+
+Date.prototype.getHeure = function()
+{
+	return this.getHours()+":"+this.getMinutes() ;
+}
+
 function receptionDesDonnees(data)
 {
     if(data.locaux)
@@ -47,13 +64,31 @@ function fetchNouvellesDonnees()
 {
     $.ajax({
 	    url : "moteur.php?deplacement=relecture",
+	    cache : false,
 	    success: receptionDesDonnees
     });
     setTimeout(fetchNouvellesDonnees,15000) ;
 } ;
 
+function relireLheure()
+{
+	var maintenant = new Date() ;
+	$("#heure").each(function()
+			{
+				$(this).html("&nbsp;"+ maintenant.getHeure() + "&nbsp;") ;
+			}
+			) ;
+	$("#date").each(function()
+			{
+				$(this).html(maintenant.getDateEnFrancais()) ;
+			}
+			) ;
+	document.horlogeDelay = setTimeout(relireLheure,1000) ;
+}
+
 $(document).ready(function ()
 		{
              document.refreshDelay = setTimeout(fetchNouvellesDonnees,5000) ;
+             relireLheure() ;
 		}
 ) ;

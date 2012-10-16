@@ -148,6 +148,14 @@ font-size:1em;
 line-height: 1em;
 }
 
+.heure,.date {
+	font-size: 3em;
+	font-family: Sawasdee,Trebuchet MS
+}
+.heure {
+	font-size: 4em;
+}
+
 .price {
 font-size:.9em;
 line-height: 1em;
