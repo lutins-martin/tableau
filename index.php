@@ -13,6 +13,7 @@ catch(Exception $e)
   die($error);
 }
 
+$lesMessages = Messages::getInstance() ;
 $lesEducatrices=Educatrices::getInstance() ;
 $tableau_js_stat = stat("js/tableau.js") ;
 

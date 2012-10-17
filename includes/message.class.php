@@ -4,6 +4,7 @@ class Message
     protected $db ;
     protected $loaded ;
     protected $message ;
+    protected $titre ;
     protected $debut ;
     protected $fin ;
     protected $id ;
@@ -29,13 +30,49 @@ class Message
 
     public function loadFromDatabaseRecord($databaseRecord)
     {
+        $firePHP = FirePHP::getInstance() ;
+        $firePHP->trace(__METHOD__) ;
+        $firePHP->log($databaseRecord,'database record') ;
         if(is_array($databaseRecord))
         {
-            $this->id=$databaseRecord['ROWID'] ;
+            $this->id=$databaseRecord['rowid'] ;
             $this->message=$databaseRecord['MESSAGE'] ;
+            $this->titre=$databaseRecord['TITRE'] ;
             $this->debut = strtotime($databaseRecord['DEBUT']) ;
             $this->fin = strtotime($databaseRecord['FIN']) ;
             $this->loaded = true ;
         }
+    }
+
+    public function getId()
+    {
+        return $this->id ;
+    }
+
+    public function getTitre()
+    {
+        return $this->titre ;
+    }
+
+    public function getMessage()
+    {
+        return $this->message() ;
+    }
+
+    public function getDebut($formatted=false)
+    {
+        if($formatted) return strftime("%F",$this->debut) ;
+        else return $this->debut ;
+    }
+
+    public function getFin($formatted=false)
+    {
+        if($formatted) return strftime("%F",$this->fin) ;
+        else return $this->fin ;
+    }
+
+    public function isLoaded()
+    {
+        return $this->loaded ;
     }
 }

@@ -11,6 +11,8 @@
 			</li>
 			<li><a href="educatrices.php">éducatrices(eurs)</a>
 			</li>
+			<li><a href="messages.php">messages</a>
+            </li>
 		</ul>
 	</div>
 </div>
