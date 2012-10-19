@@ -18,11 +18,10 @@ $listeLocaux = $lesLocaux->getLesLocaux() ;
 $firePHP->log($_REQUEST,'param') ;
 $locauxAChanger=(isset($_REQUEST['item'])?$_REQUEST['item']:null) ;
 
+$processed = false ;
 
 if (is_array($locauxAChanger))
 {
-    $processed = false ;
-
     foreach($locauxAChanger as $localId => $newLocal)
     {
         if(isset($newLocal['efface']))
@@ -48,11 +47,30 @@ if (is_array($locauxAChanger))
             }
         }
     }
-    if ($processed)
+
+}
+
+$locauxAAjouter=(isset($_REQUEST['itemNouveau'])?$_REQUEST['itemNouveau']:null) ;
+if(is_array($locauxAAjouter))
+{
+    foreach($locauxAAjouter as $nouveauLocal)
     {
-        header("Location: locaux.php") ;
-        exit ;
+        if(isset($nouveauLocal['nom']))
+        {
+            if(!is_null($nouveauLocal['nom']) && trim($nouveauLocal['nom'])!="")
+            {
+                $local = new Local();
+                $local->setNom($nouveauLocal['nom']) ;
+                $local->save() ;
+                $processed = true ;
+            }
+        }
     }
+}
+if ($processed)
+{
+    header("Location: locaux.php") ;
+    exit ;
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -111,7 +129,7 @@ if(count($listeLocaux))
     </div>
     <div class="column grid_4">
 <?php
-    $nouvelleBoiteDuNom = new TextBoxNode(array("name" => "item[][nom]")) ;
+    $nouvelleBoiteDuNom = new TextBoxNode(array("name" => "itemNouveau[][nom]")) ;
     print $nouvelleBoiteDuNom->display() ;
     $plus = new ButtonNode(array("name" => "ajoute","value" => "+","title" => "cliquer ici pour ajouter un autre local")) ;
     print $plus->display() ;

@@ -10,9 +10,22 @@ Date.prototype.getDateEnFrancais = function()
 	return jourSemaine[jour] + ", le " + this.getDate().toLocaleString() + " " + moisDeLannee[mois] + " " + this.getFullYear() ; 
 }; 
 
-Date.prototype.getHeure = function()
+Date.prototype.getHeure = function(avecSecondes)
 {
-	return this.getHours()+":"+this.getMinutes() ;
+	var minutes = this.getMinutes() ;
+	var minutesString = minutes.toString() ;
+	if(minutes<10) minutesString = "0" + minutesString ;
+	
+	var lHeure = this.getHours()+":"+minutesString  ;
+	if(avecSecondes)
+	{
+		var secondes = this.getSeconds() ;
+		var secondesString = secondes.toString() ;
+		if(secondes<10) secondesString = "0"+secondesString ;
+		lHeure += ":"+secondesString ;
+	}
+	
+	return lHeure ;
 }
 
 function receptionDesDonnees(data)

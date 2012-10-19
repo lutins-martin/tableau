@@ -56,7 +56,7 @@ class Message
 
     public function getMessage()
     {
-        return $this->message() ;
+        return $this->message ;
     }
 
     public function getDebut($formatted=false)
