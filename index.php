@@ -1,5 +1,6 @@
 <?php
 //phpinfo() ;
+ini_set("display_errors","on") ;
 include_once("includes/startup.php") ;
 try
 {
@@ -10,10 +11,10 @@ try
 }
 catch(Exception $e)
 {
-  die($error);
+  die($e->getMessage());
 }
 
-$lesMessages = Messages::getInstance() ;
+//$lesMessages = Messages::getInstance() ;
 $lesEducatrices=Educatrices::getInstance() ;
 $tableau_js_stat = stat("js/tableau.js") ;
 
