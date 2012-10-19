@@ -34,21 +34,34 @@ margin:0;
 list-style-type:none;
 }
 
-a {
+a.menu {
 float:left;
 text-decoration:none;
 color:white;
 background-color:navy;
 padding:0.2em 0.6em;
-border:1px solid white;
+border:.1em solid white;
 }
 
-a:hover 
+a:hover.menu 
 {
 	background-color: white;
 	color: navy;
-	border:1px solid purple;
+	border:.1em solid purple;
 }
+
+a.button {
+    /* font: bold 1.1em Arial; */
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: .1em .3em .1em .3em;
+    border-top: .1em solid #CCCCCC;
+    border-right: .1em solid #333333;
+    border-bottom: .1em solid #333333;
+    border-left: .1em solid #CCCCCC;
+}
+
 
 #wrapper{
 margin:auto;

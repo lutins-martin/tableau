@@ -20,10 +20,10 @@ $listeEducatrices = $lesEducatrices->getLesEducatrices() ;
 $firePHP->log($_REQUEST,'param') ;
 $educatricesAChanger=(isset($_REQUEST['item'])?$_REQUEST['item']:null) ;
 
+$processed = false ;
 
 if (is_array($educatricesAChanger))
 {
-    $processed = false ;
 
     foreach($educatricesAChanger as $educatriceId => $neweducatrice)
     {
@@ -62,13 +62,32 @@ if (is_array($educatricesAChanger))
             }
         }
     }
-    if ($processed)
-    {
-        header("Location: educatrices.php") ;
-        exit ;
-    }
 
 }
+
+$educatricesAAjouter = (isset($_REQUEST['itemNouveau'])?$_REQUEST['itemNouveau']:null) ;
+if(is_array($educatricesAAjouter))
+{
+    foreach($educatricesAAjouter as $nouvelleEducatrice)
+    {
+        if(isset($nouvelleEducatrice['nom']))
+        {
+            if(!is_null($nouvelleEducatrice['nom']) && trim($nouvelleEducatrice['nom'])!="")
+            {
+                $local = new Educatrice();
+                $local->setNom($nouvelleEducatrice['nom']) ;
+                $local->save() ;
+                $processed = true ;
+            }
+        }
+    }
+}
+if ($processed)
+{
+    header("Location: educatrices.php") ;
+    exit ;
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -139,7 +158,7 @@ if(count($listeEducatrices))
     </div>
     <div class="column grid_4">
 <?php
-    $nouvelleBoiteDuNom = new TextBoxNode(array("name" => "item[][nom]")) ;
+    $nouvelleBoiteDuNom = new TextBoxNode(array("name" => "itemNouveau[][nom]")) ;
     print $nouvelleBoiteDuNom->display() ;
     $plus = new ButtonNode(array("name" => "ajoute","value" => "+","title" => "cliquer ici pour ajouter une autre éducatrice(teur)")) ;
     print $plus->display() ;

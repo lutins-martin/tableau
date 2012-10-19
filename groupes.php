@@ -18,10 +18,10 @@ $listeGroupes = $lesGroupes->getLesGroupes() ;
 $firePHP->log($_REQUEST,'param') ;
 $groupesAChanger=(isset($_REQUEST['item'])?$_REQUEST['item']:null) ;
 
-
+$processed = false ;
 if (is_array($groupesAChanger))
 {
-    $processed = false ;
+    $firePHP->log($groupesAChanger,"items") ;
 
     foreach($groupesAChanger as $groupeId => $newgroupe)
     {
@@ -50,11 +50,32 @@ if (is_array($groupesAChanger))
             }
         }
     }
-    if ($processed)
+
+}
+
+$groupesAAjouter=(isset($_REQUEST['itemNouveau'])?$_REQUEST['itemNouveau']:null) ;
+$firePHP->log($groupesAAjouter,'groupes a ajouter') ;
+if(is_array($groupesAAjouter))
+{
+    foreach($groupesAAjouter as $nouveauGroupe)
     {
-        header("Location: groupes.php") ;
-        exit ;
+        if(isset($nouveauGroupe['nom']))
+        {
+            if(!is_null($nouveauGroupe['nom']) && trim($nouveauGroupe['nom'])!="")
+            {
+                $groupe = new Groupe();
+                $groupe->setNom($nouveauGroupe['nom']) ;
+                $groupe->save() ;
+                $processed = true ;
+            }
+        }
     }
+}
+
+if ($processed)
+{
+    header("Location: groupes.php") ;
+    exit ;
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -113,7 +134,7 @@ if(count($listeGroupes))
     </div>
     <div class="column grid_4">
 <?php
-    $nouvelleBoiteDuNom = new TextBoxNode(array("name" => "item[][nom]")) ;
+    $nouvelleBoiteDuNom = new TextBoxNode(array("name" => "itemNouveau[][nom]")) ;
     print $nouvelleBoiteDuNom->display() ;
     $plus = new ButtonNode(array("name" => "ajoute","value" => "+","title" => "cliquer ici pour ajouter un autre groupe")) ;
     print $plus->display() ;
