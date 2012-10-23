@@ -7,7 +7,7 @@ Date.prototype.getDateEnFrancais = function()
 	var jour = this.getDay() ;
 	var mois = this.getMonth() ;
 	
-	return jourSemaine[jour] + ", le " + this.getDate().toLocaleString() + " " + moisDeLannee[mois] + " " + this.getFullYear() ; 
+	return jourSemaine[jour] + ", le " + this.getDate().toString() + " " + moisDeLannee[mois] + " " + this.getFullYear() ; 
 }; 
 
 Date.prototype.getHeure = function(avecSecondes)

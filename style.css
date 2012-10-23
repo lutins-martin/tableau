@@ -20,13 +20,17 @@ body {
 	/* background-color: lightgreen; */	
 }
 
+div.message {
+    border: thin solid lime;
+}
+
 body {
 font-size: 1em;
 font-family: georgia,arial,helvetica,sans-serif;
 text-align:center;
 }
 
-ul {	
+ul.menu {	
 float:left;
 width:100%;
 padding:0;
@@ -150,7 +154,7 @@ h3 {
 	font-size:1.2em;  
 }
 h1,h2,h3 {
-	margin:1em 0;
+	margin:.2em 0;
 }
 h1,h2,h3,h4,h5,h6,strong {
 	font-weight:bold; 

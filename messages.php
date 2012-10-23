@@ -18,9 +18,9 @@ $lesMessages = Messages::getInstance() ;
 $listeMessages = $lesMessages->getLesMessages() ;
 
 $firePHP->log($_REQUEST,'param') ;
-$messagesAChanger=(isset($_REQUEST['item'])?$_REQUEST['item']:null) ;
 
 $firePHP->log($listeMessages,'Liste messages') ;
+$messagesAChanger = (isset($_REQUEST['item']))?trim($_REQUEST['item']):null ;
 
 if (is_array($messagesAChanger))
 {
@@ -78,8 +78,9 @@ if (is_array($messagesAChanger))
         <h1 id="header">Ajouter/changer les messages</h1>
     </div>
 </div>
-<form action="messages.php" method="post">
+<form action="modmessage.php" method="post">
 <div class="row">
+    <div class="column grid_2 framedInBlue">effacer</div>
     <div class="column grid_3 framedInRed">début</div>
     <div class="column grid_3 framedInRed">fin</div>
     <div class="column grid_4 framedInBlue">titre des messages</div>
@@ -91,6 +92,10 @@ if(count($listeMessages))
     {
 ?>
 <div class="row">
+            <div id="messageEfface<?=$message->getId()?>"
+                class="column grid_2 framedInBlue">
+                <input type="checkbox" name="messageEfface[<?=$message->getId()?>]" value="on"></input>
+            </div>
             <div id="messageDebut<?=$message->getId()?>"
                 class="column grid_3 framedInRed">
                 <?=$message->getDebut(true)?>
@@ -101,7 +106,7 @@ if(count($listeMessages))
                </div>
             <div id="messageTitre<?$message->getId()?>"
                class="column grid_4 framedInBlue">
-<a href="modmessage.php?message=<?=$message->getId()?>&titre=<?=$message->getTitre()?>" title="cliquer pour voir et changer le message"><?=$message->getTitre()?></a>
+<a href="modmessage.php?messageId=<?=$message->getId()?>&titre=<?=$message->getTitre()?>" title="cliquer pour voir et changer le message"><?=$message->getTitre()?></a>
                </div>
 </div>
 <?php
@@ -109,7 +114,8 @@ if(count($listeMessages))
     }
 ?>
 <div class="row">
-    <div class="column grid_3">
+    <div class="column grid_3"><input type="submit" name="submit" value="effacer ces messages"></input></div>
+    <div class="column grid_2">
 &nbsp;
     </div>
     <div class="column grid_3">

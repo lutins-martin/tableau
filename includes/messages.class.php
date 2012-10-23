@@ -34,7 +34,7 @@ class Messages
 
     public static function getUnMessage($messageID=null)
     {
-        if(count(self::$lesMessages)==0) $this->getLesMessages() ;
+        if(count(self::$lesMessages)==0) self::getLesMessages() ;
         if(is_null($messageID)) return new Message() ;
         if(isset(self::$lesMessages[$messageID])) return self::$lesMessages[$messageID] ;
         else return new Message() ;

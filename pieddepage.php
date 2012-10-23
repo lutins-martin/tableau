@@ -1,6 +1,6 @@
 <div id="pied" class="row pied">
 	<div id="petitpied" class="column grid_16">
-		<ul>
+		<ul class="menu">
 			<li><a href="index.php" class="menu">Tableau</a>
 			</li>
 			<li><a href="tableau.php" class="menu">déplacements</a>

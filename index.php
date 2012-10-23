@@ -14,10 +14,12 @@ catch(Exception $e)
   die($e->getMessage());
 }
 
-//$lesMessages = Messages::getInstance() ;
+
 $lesEducatrices=Educatrices::getInstance() ;
 $tableau_js_stat = stat("js/tableau.js") ;
 
+$lesMessages = Messages::getInstance() ;
+$lesMessageAujourdhui = $lesMessages->getLesMessages(true) ;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -41,6 +43,7 @@ $tableau_js_stat = stat("js/tableau.js") ;
     </div>
     <div class="column grid_4"><h1 id="heure" class="heure"></h1></div>
 </div>
+<div id="grille" class="column grid_9">
 <?php
 $listeEducatrices = $lesEducatrices->getLesEducatrices() ;
 if(count($listeEducatrices))
@@ -49,19 +52,39 @@ if(count($listeEducatrices))
     {
         $firePHP->log($educatrice,'educatrice') ;
 ?>
+<div class="column grid_9">
 <div class="row">
-		<div class="column framedInBlack grid_9">
+		<div class="column framedInBlack grid_8">
 			<div id="educatrice<?=$educatrice->getId()?>"
 				class="column grid_4 framedInRed">
 				<?="{$educatrice->getNom()} ({$educatrice->getGroupe()->getNom()})"?>
 			</div>
 			<div id="local<?=$educatrice->getId()?>"
-				class="column grid_4 framedInBlue"><?="{$educatrice->getGroupe()->getLocal()->getNom()}"?></div>
+				class="column grid_3 framedInBlue"><?="{$educatrice->getGroupe()->getLocal()->getNom()}"?></div>
 		</div>
 	</div>
+</div>
 <?php
-        }
     }
+}
+?>
+</div>
+<div class="column grid_7">
+<?php
+foreach($lesMessageAujourdhui as $message)
+{
+    ?>
+    <div id="message<?=$message->getId()?>" class="row">
+    <div class="column grid_6 message">
+    <h1><?=$message->getTitre()?></h1>
+    <div><?=$message->getMessage()?></div>
+    </div>
+    </div>
+    <?
+}
+?>
+</div>
+<?
 include("pieddepage.php") ;
 ?>
 </body>
