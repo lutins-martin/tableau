@@ -17,5 +17,8 @@ $(document).ready(function()
 		        "orderedlist" : "liste numérotée",
 		        "unorderedlist" : "liste non-numérotée"
 		    }) 
-                  }) ;
+                  }) ;			
+			/*$(".dateInput").datepicker();*/
+			/*$(".dateInput").datepicker("option","dateFormat", "yy-mm-dd") ;*/
 		}) ;
+

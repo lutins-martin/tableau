@@ -53,18 +53,13 @@ function receptionDesDonnees(data)
             if(divChangementDeLocal)
             {
             	var selectDeLocal = $(divChangementDeLocal).find("select")[0] ; 
-            	for(option in selectDeLocal.options)
+            	for(index=0;index<selectDeLocal.options.length;index++)
         		{
-            		var curOption = selectDeLocal.options[option] ;
+            		var curOption = selectDeLocal.options[index] ;
             		if (curOption.value == locaux[educatriceId].local.id)
             		{
-            			curOption.defaultSelected = curOption.selected = true ;           			 
-            		}            			
-            		else
-            		{
-            			curOption.selected = curOption.defaultSelected = false ;
-            		}
-            			
+            			selectDeLocal.options.selectedIndex = index ;           			 
+            		}            			            			
         		}
             	//= locaux[educatriceId].local.id ;
             }

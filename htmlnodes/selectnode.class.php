@@ -23,6 +23,7 @@ class SelectNode extends HtmlNode
     {
         $attributes = array() ;
         if (!is_null($value)) $attributes['value']=$value ;
+        else $attributes['value'] = "" ;
 
         if ($selected) $attributes['selected'] = "selected" ;
 

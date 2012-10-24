@@ -22,6 +22,11 @@ body {
 
 div.message {
     border: thin solid lime;
+    text-align: left ;
+}
+
+input.dateInput {
+	text-align: center ;
 }
 
 body {

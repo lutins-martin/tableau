@@ -51,7 +51,7 @@ if(isset($_REQUEST['submit']) && trim($_REQUEST['submit']))
 
         $message->save() ;
     }
-    //header("Location: messages.php") ;
+    header("Location: messages.php") ;
 }
 
 ?>
@@ -89,8 +89,8 @@ if(isset($_REQUEST['submit']) && trim($_REQUEST['submit']))
 </div>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>
-    <div class="column grid_4 framedInRed"><input type="text" name="debut" value="<?=$message->getDebut(true)?>"></input></div>
-    <div class="column grid_4 framedInRed"><input type="text" name="fin" value="<?=$message->getFin(true)?>"></div>
+    <div class="column grid_4 framedInRed"><input type="text" name="debut" value="<?=$message->getDebut(true)?>" size="10" class="dateInput"></input></div>
+    <div class="column grid_4 framedInRed"><input type="text" name="fin" value="<?=$message->getFin(true)?>" size="10" class="dateInput"></div>
 </div>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>
@@ -99,7 +99,7 @@ if(isset($_REQUEST['submit']) && trim($_REQUEST['submit']))
 </div>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>
-    <div class="column grid_13 framedInBlue"><textarea id="messageBox" name="message" cols="120" rows="30"><?=$message->getMessage()?></textarea></div>
+    <div class="column grid_13 framedInBlue"><textarea id="messageBox" name="message" cols="80" rows="20"><?=$message->getMessage()?></textarea></div>
 </div>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>
