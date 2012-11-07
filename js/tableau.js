@@ -125,8 +125,11 @@ function afficherDeplacement()
 					{
 				document.refuseChangement = false ;
 				var selectField = eventObject.currentTarget ;
-				jQuery.ajax("moteur.php?action=changerLocal&"+selectField.name+"="+selectField.value) ;
-				location.reload() ;
+				jQuery.ajax("moteur.php?action=changerLocal&"+selectField.name+"="+selectField.value).done(
+                                    function()
+                                    {
+                                       location.reload() ;
+                                    }) ;
 					}) ;
 
 		}) ;		
