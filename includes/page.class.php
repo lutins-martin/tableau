@@ -30,10 +30,16 @@ class Page extends WebService
         return self::$instance ;
     }
 
+    private function convertPathRodionov($source)
+    {
+        return str_replace("/home/martin/www","/var/www/apps.leslutins.ca",$source) ;
+    }
+
     public function addCss($fichierCss)
     {
-        $fichierCssComplet =  stream_resolve_include_path ( $fichierCss ) ;
+        $fichierCssComplet = $this->convertPathRodionov(stream_resolve_include_path ( $fichierCss )) ;
         $fichierCssWWW=str_replace($_SERVER['DOCUMENT_ROOT'],"http://".$_SERVER['SERVER_NAME'],$fichierCssComplet) ;
+
         if($fichierCssComplet!==false)
         {
             $css['fichier'] = $fichierCssWWW;
@@ -59,7 +65,7 @@ class Page extends WebService
 
     public function addJs($fichierJs)
     {
-        $fichierJsComplet =  stream_resolve_include_path ( $fichierJs ) ;
+        $fichierJsComplet =  $this->convertPathRodionov(stream_resolve_include_path ( $fichierJs )) ;
         $fichierJsWWW=str_replace($_SERVER['DOCUMENT_ROOT'],"http://".$_SERVER['SERVER_NAME'],$fichierJsComplet) ;
 
         if($fichierJsComplet!==false)
