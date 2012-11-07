@@ -23,6 +23,7 @@ body {
 div.message {
     border: thin solid lime;
     text-align: left ;
+    padding: .4em ;
 }
 
 input.dateInput {
@@ -41,6 +42,14 @@ width:100%;
 padding:0;
 margin:0;
 list-style-type:none;
+}
+
+#menu {
+    margin: .2em ;
+}
+
+.cache {
+	display : none ;
 }
 
 a.menu {
@@ -88,10 +97,12 @@ float:left;
 width:12.98em;
 margin-left:.5em;
 }
+
 .boxes div.first {
 margin-left:0em;
 padding-left: 0em;
 }
+
 .main{
 background-color:#fff;
 border-top:#fff .3em solid;
@@ -132,8 +143,8 @@ font-size: .8em;
 
 img{
 border:none;
-width: 10.8em;
-height: 10.32em;
+/* width: 10.8em;
+height: 10.32em; */
 }
 
 a img{
@@ -191,23 +202,23 @@ font-family: arial,helvetica,sans-serif;
 }
 
 
-.framedInRed {
+.nomItem {
     border: thin solid red ;
     background: lavenderblush;
 }
 
-.framedInBlue {
+.valeurItem {
     border: thin solid blue ;
     background: azure;
 }
 
-.framedInBlack {
+.boiteAutour {
     border: thin solid black ;
     padding: .2em ;
     margin: .1em;
 }
 
-.pied {
+ .pied {
     position:relative ;
-    top: 60px;
+    top: 60px; 
 }

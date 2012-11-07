@@ -1,8 +1,8 @@
 Date.prototype.getDateEnFrancais = function()
 {
 	var jourSemaine = Array("dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi") ;
-	var moisDeLannee = Array("janvier","février","mars","avril","mai","juin","juillet",
-			"août","septembre","octobre","novembre","décembre") ;
+	var moisDeLannee = Array("janvier","fÃ©vrier","mars","avril","mai","juin","juillet",
+			"aoÃ»t","septembre","octobre","novembre","dÃ©cembre") ;
 	
 	var jour = this.getDay() ;
 	var mois = this.getMonth() ;
@@ -30,7 +30,7 @@ Date.prototype.getHeure = function(avecSecondes)
 
 function receptionDesDonnees(data)
 {
-    if(data.locaux)
+    if(data.locaux && !document.refuseChangement)
     {
         var locaux = data.locaux ;
         var rangees= $("div[id^='educatrice']").length ;
@@ -68,14 +68,97 @@ function receptionDesDonnees(data)
     } ;
 } ;
 
+function afficherDeplacement()
+{
+	document.refuseChangement = true ;
+	
+	var selectExisteDeja = $(this.parentNode.parentNode).find("select") ;
+	if (selectExisteDeja.length)
+	{
+		var selectObject = selectExisteDeja[0] ;
+		var parent = selectObject.parentNode ;
+		
+		var preferredSibling = selectObject ;
+		while(preferredSibling.nodeName!="#text") preferredSibling = preferredSibling.previousSibling ;
+
+		preferredSibling.data = selectObject.siblingText;
+		parent.removeChild(selectObject) ;
+		document.refuseChangement = false ;
+		this.src = this.oldsrc ;
+		this.title = this.oldtitle ;
+	}
+	else
+	{
+		this.oldsrc = this.src ;
+		this.src = "images/cancel.png" ;
+		
+		this.oldTitle = this.title ;
+		this.title="cliquer pour annuler le dÃ©placement" ;
+		
+		var educatriceId = this.id.replace("bouton","") ;
+		
+		var boitesLocal = $(this.parentNode.parentNode).find(".local") ;
+		
+		$.ajax({
+			url: "moteur.php?action=tousLesLocauxPour&educatriceId=" + educatriceId ,
+			context : boitesLocal[0]
+		}).done(function (data)
+		{
+			var selectObject = document.createElement("select") ;
+			selectObject.name = "local[" + data.educatriceId + "]" ;
+			selectObject.width = 60 ;
+			$(selectObject).hide() ;
+			data.locaux.forEach(function(local){
+				var optionObject = document.createElement("option") ;
+				optionObject.value = local.value ;
+				optionObject.innerHTML = local.name ;
+				selectObject.appendChild(optionObject) ;
+			}) ;
+			this.appendChild(selectObject) ;
+			var preferredSibling = selectObject ;
+			while(preferredSibling.nodeName!="#text") preferredSibling = preferredSibling.previousSibling ;
+
+			selectObject.siblingText = preferredSibling.data ;
+			preferredSibling.data = "" ;
+			$(selectObject).show() ;
+			$(selectObject).change(function(eventObject)
+					{
+				document.refuseChangement = false ;
+				var selectField = eventObject.currentTarget ;
+				jQuery.ajax("moteur.php?action=changerLocal&"+selectField.name+"="+selectField.value) ;
+				location.reload() ;
+					}) ;
+
+		}) ;		
+	}
+	
+}
+
+function afficheEdit()
+{
+	var boutonEditionListe = $(this).find(".boutonEdition")
+	$(boutonEditionListe).show() ;
+}
+
+function cacheEdit()
+{
+	var boutonEditionListe = $(this).find(".boutonEdition")
+	$(boutonEditionListe).hide() ;	
+}
+
 function fetchNouvellesDonnees()
 {
-    $.ajax({
-	    url : "moteur.php?deplacement=relecture",
-	    cache : false,
-	    success: receptionDesDonnees
-    });
-    setTimeout(fetchNouvellesDonnees,15000) ;
+	if(!document.refuseChangement)
+	{
+		$.ajax({
+		    url : "moteur.php?action=relecture",
+		    cache : false,
+		    success: receptionDesDonnees
+	    });
+		
+		setTimeout(fetchNouvellesDonnees,15000) ;
+	}    
+    
 } ;
 
 function relireLheure()
@@ -96,6 +179,10 @@ function relireLheure()
 
 $(document).ready(function ()
 		{
+			 $(".boiteAutour").mouseover(afficheEdit) ;			 
+			 $(".boiteAutour").mouseout(cacheEdit) ;
+			 
+			 $(".boiteAutour img").click(afficherDeplacement) ;
              document.refreshDelay = setTimeout(fetchNouvellesDonnees,5000) ;
              relireLheure() ;
 		}
