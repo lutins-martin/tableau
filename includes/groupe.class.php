@@ -60,7 +60,7 @@ class Groupe extends Element
                 ":local" => $this->local->getId())) ;
             }
 
-            $this->groupe->save() ;
+            $this->local->save() ;
         }
     }
 

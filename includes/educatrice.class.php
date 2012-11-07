@@ -63,6 +63,7 @@ class Educatrice extends Element
 
     public function setLocal($localId)
     {
+        $firePHP = FirePHP::getInstance() ;
         if(isset($this->groupe) && ($this->groupe instanceof Groupe))
         {
             $locaux = Locaux::getInstance() ;
