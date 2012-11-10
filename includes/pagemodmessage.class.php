@@ -17,7 +17,6 @@ class PageModMessage extends Page
         $this->lesMessages=Messages::getInstance() ;
         $this->titre = "Ajouter/changer un message" ;
 
-        $this->addJs("tableau.js") ;
         $this->addJs("messages.js") ;
 
         set_include_path(get_include_path().":$tableauRootDir/tableau/jHtmlArea-0.7.5/scripts/:$tableauRootDir/tableau/jquery-ui-1.9.0.custom/js/:$tableauRootDir/tableau/jHtmlArea-0.7.5/style/:$tableauRootDir/tableau/:jquery-ui-1.9.0.custom/css/smoothness/") ;
