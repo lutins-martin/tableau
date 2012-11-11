@@ -9,7 +9,7 @@ class Groupe extends Element
     const SELECT_PAR_ROWID = "select NOM,ROWID from GROUPES where ROWID= :rowid" ;
 
     const INSERT = "insert into GROUPES (NOM) values (:nom)" ;
-    const UPDATE = "update GROUPES set NOM=:nom where ROWID=:rowid" ;
+    const UPDATE = "update GROUPES set NOM=:nom where ROWID=:rowid and NOM!=:nom" ;
     const DELETE = "delete from GROUPES where ROWID=:rowid" ;
 
     public function __construct($nomOrId=null,Educatrice $educatrice=null)
@@ -49,7 +49,7 @@ class Groupe extends Element
                 $localId = $existsGroupe_Dans_Local->fetch(PDO::FETCH_COLUMN) ;
                 if($localId)
                 $saveGroupe_Dans_Local = $this->db->query("update GROUPES_DANS_LOCAUX set LOCAL=:local
-            where GROUPE=:groupe") ;
+            where GROUPE=:groupe and LOCAL!=:local") ;
                 else
                 $saveGroupe_Dans_Local = $this->db->query("insert into GROUPES_DANS_LOCAUX
                 (GROUPE,LOCAL) values (:groupe,:local)") ;

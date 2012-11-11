@@ -9,6 +9,7 @@ class Database
     {
         global $tableauRootDir ;
         self::$db = new PDO("sqlite:$tableauRootDir/tableau/tableau.sqlite") ;
+        self::$db->query("PRAGMA synchronous=OFF") ;
     }
 
     public static function getInstance()

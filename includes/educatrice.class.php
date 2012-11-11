@@ -8,7 +8,7 @@ class Educatrice extends Element
     const SELECT_PAR_ROWID = "select NOM,ROWID from EDUCATRICES where ROWID= :rowid" ;
 
     const INSERT = "insert into EDUCATRICES (NOM) values (:nom)" ;
-    const UPDATE = "update EDUCATRICES set NOM=:nom where ROWID=:rowid" ;
+    const UPDATE = "update EDUCATRICES set NOM=:nom where ROWID=:rowid and NOM!=:nom" ;
     const DELETE = "delete from EDUCATRICES where ROWID=:rowid" ;
 
     public function __construct($nomOrId=null)
@@ -87,7 +87,7 @@ class Educatrice extends Element
                 $groupeId = $existsEducatrice_dans_groupe->fetch(PDO::FETCH_COLUMN) ;
                 if($groupeId)
                 $saveEducatrice_dans_groupe = $this->db->query("update EDUCATRICES_DANS_GROUPES set GROUPE=:groupe
-            where EDUCATRICE=:educatrice") ;
+            where EDUCATRICE=:educatrice and GROUPE!=:groupe") ;
                 else
                 $saveEducatrice_dans_groupe = $this->db->query("insert into EDUCATRICES_DANS_GROUPES
                 (EDUCATRICE,GROUPE) values (:educatrice,:groupe)") ;

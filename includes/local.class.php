@@ -8,7 +8,7 @@ class Local extends Element
     const SELECT_PAR_ROWID = "select NOM,ROWID from LOCAUX where ROWID= :rowid" ;
 
     const INSERT = "insert into LOCAUX (NOM) values (:nom)" ;
-    const UPDATE = "update LOCAUX set NOM=:nom where ROWID=:rowid" ;
+    const UPDATE = "update LOCAUX set NOM=:nom where ROWID=:rowid and NOM!=:nom" ;
     const DELETE = "delete from LOCAUX where ROWID=:rowid" ;
 
     public function __construct($nomOrId=null)
