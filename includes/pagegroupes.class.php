@@ -15,7 +15,6 @@ class PageGroupes extends Page
         parent::init() ;
         $this->lesGroupes = Groupes::getInstance() ;
 
-        $this->addJs("tableau.js") ;
         $this->addJs("ajoute.js") ;
 
         $this->titre = "Ajouter/changer les groupes" ;

@@ -17,7 +17,7 @@ class Page extends WebService
         $this->addCss("$gridName/reset.css") ;
         $this->addCss("$gridName/text.css") ;
         $this->addCss("$gridName/$gridName.css") ;
-        $this->addCss("style.css") ;
+        $this->addCss("styles/style.css") ;
 
         $this->addJs("jquery-1.8.2.js") ;
 
