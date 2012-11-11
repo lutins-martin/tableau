@@ -3,7 +3,7 @@ Rejean Prevost - Juillet 2008
 */
 
 html{
-color: limegreen;
+color: #03C03C ;
 background: white;
 font-size: 100%; /* WinIE text resize correction */
 }
@@ -18,7 +18,7 @@ body {
 	background-repeat: repeat;
 	height:798px; */
 	background-color: white;
-	color: limegreen ;	
+	color: #03C03C ;	
 }
 
 div.message {
@@ -63,7 +63,7 @@ a.menu {
 float:left;
 text-decoration:none;
 color: white;
-background-color: red;
+background-color: firebrick;
 padding:0.2em 0.6em;
 border:.1em solid maroon;
 }
@@ -217,7 +217,7 @@ font-family: arial,helvetica,sans-serif;
 
 .valeurItem {
     border: thin solid firebrick ;
-    color: firebrick ;
+    color: black ;
 	background: white;
 }
 

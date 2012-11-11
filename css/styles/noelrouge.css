@@ -4,7 +4,7 @@ Rejean Prevost - Juillet 2008
 
 html{
 color: white ;
-background: red ;
+background: firebrick ;
 font-size: 100%; /* WinIE text resize correction */
 }
 
@@ -17,13 +17,13 @@ body {
 /* 	background-image: url(images/wall4.png);
 	background-repeat: repeat;
 	height:798px; */
-	background-color: red;
-	color: lawngreen ;	
+	background-color: firebrick ;
+	color: #03C03C ;	
 }
 
 div.message {
 	background : white ;
-	color: chocolate ;
+	color: firebrick ;
     border: thick solid green;
     text-align: left ;
     padding: .4em ;
@@ -71,7 +71,7 @@ border:.1em solid lime ;
 a:hover.menu 
 {
 	background-color: white;
-	color: red;
+	color: firebrick ;
 	border:.1em solid lime;
 }
 
@@ -218,7 +218,7 @@ font-family: arial,helvetica,sans-serif;
 
 .valeurItem {
     border: thin solid firebrick ;
-    color: firebrick ;
+    color: black ;
 	background: white;
 }
 

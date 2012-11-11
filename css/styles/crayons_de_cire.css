@@ -3,7 +3,7 @@ Rejean Prevost - Juillet 2008
 */
 
 html{
-color:#000;
+color: white ;
 background:#fff;
 font-size: 100%; /* WinIE text resize correction */
 }
@@ -14,16 +14,17 @@ padding: 0em 0em 0em 0em;
 }
 
 body {
-	background-image: url(/tableau/images/wall4.png); 
+	background-image: url(/tableau/images/crayons_de_cire.jpg); 
 	background-repeat: repeat;
 	height:798px;
 	/* background-color: lightgreen; */	
 }
 
 div.message {
-    border: thin solid lime;
+    border: thick solid lime;
     text-align: left ;
     padding: .4em ;
+    background: navy ;
 }
 
 input.dateInput {
@@ -205,15 +206,17 @@ font-family: arial,helvetica,sans-serif;
 .nomItem {
     border: thin solid red ;
     background: lavenderblush;
+    color: black ;
 }
 
 .valeurItem {
     border: thin solid blue ;
     background: azure;
+    color: black ;
 }
 
 .boiteAutour {
-    border: thin solid black ;
+    border: thin solid yellow ;
     padding: .2em ;
     margin: .1em;
 }
