@@ -23,8 +23,7 @@ Date.prototype.getHeure = function(avecSecondes)
 		var secondesString = secondes.toString() ;
 		if(secondes<10) secondesString = "0"+secondesString ;
 		lHeure += ":"+secondesString ;
-	}
-	
+	}	
 	return lHeure ;
 }
 
@@ -101,7 +100,8 @@ function afficherDeplacement()
 		
 		$.ajax({
 			url: "moteur.php?action=tousLesLocauxPour&educatriceId=" + educatriceId ,
-			context : boitesLocal[0]
+			context : boitesLocal[0],
+			cache: false
 		}).done(function (data)
 		{
 			var selectObject = document.createElement("select") ;
@@ -134,7 +134,6 @@ function afficherDeplacement()
 
 		}) ;		
 	}
-	
 }
 
 function afficheEdit()
