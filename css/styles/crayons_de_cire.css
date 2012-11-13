@@ -4,7 +4,7 @@ Rejean Prevost - Juillet 2008
 
 html{
 color: white ;
-background:#fff;
+background: navy ;
 font-size: 100%; /* WinIE text resize correction */
 }
 
@@ -14,7 +14,7 @@ padding: 0em 0em 0em 0em;
 }
 
 body {
-	background-image: url(/tableau/images/crayons_de_cire.jpg); 
+	background-image: url(crayons_de_cire.jpg); 
 	background-repeat: repeat;
 	height:798px;
 	/* background-color: lightgreen; */	
@@ -117,7 +117,7 @@ text-align:center;
 }
 
 #header{
-color: navy ;
+color: white ;
 height:2em;
 /* background-image: url(images/Seamles-Blue-03.jpg) ; */
 margin:.25em 0em 0em 0em;
