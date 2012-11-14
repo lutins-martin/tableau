@@ -27,10 +27,11 @@ class PageTableau extends Page
         $firePHP = FirePHP::getInstance() ;
 ?>
     <div id="dateheure" class="row">
-    <div class="column grid_12">
-        <h1 id="date" class="date"></h1>
+    <div id="hd" class="column grid_12">
+        <h1 id="header">Où sont les moussaillons?</h1>
     </div>
-    <div class="column grid_4"><h1 id="heure" class="heure"></h1></div>
+
+    <div class="column grid_4"><div id="heure" class="heure"></div><div id="date" class="date"></div></div>
 </div>
 <div id="grille" class="column grid_9">
 <?php

@@ -130,7 +130,7 @@ margin:.25em 0em 0em 0em;
 padding:.25em 0em 0em 0em;
 text-align:center;
 letter-spacing: -0.05em;
-font-size: 1.8em;
+font-size: 2.2em;
 font-weight: bold ;
 line-height: 1.2em;
 font-family: Times,Book Antiqua,Century Gothic,serif ;
@@ -190,11 +190,14 @@ line-height: 1em;
 }
 
 .heure,.date {
-	font-size: 3em;
-	font-family: Times,Book Antiqua,Century Gothic,serif ;
+    font-family: Sawasdee,Trebuchet MS ;
+    font-weight: bold ;
+}
+.date {
+    font-size: 2em;
 }
 .heure {
-	font-size: 4em;
+    font-size: 3em;
 }
 
 .price {
