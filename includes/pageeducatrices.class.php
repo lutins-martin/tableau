@@ -25,6 +25,8 @@ class PageEducatrices extends Page
 
     public function recevoirLesDonnees()
     {
+        $firePHP = FirePHP::getInstance() ;
+
         $educatricesAChanger= $this->getRequestParameter('item') ;
 
         $processed = false ;
