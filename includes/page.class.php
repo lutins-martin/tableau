@@ -114,6 +114,8 @@ class Page extends WebService
             </li>
             <li><a href="messages.php" class="menu">messages</a>
             </li>
+            <li><a href="styles.php" class="menu">styles</a>
+            </li>
         </ul>
     </div>
 </div>

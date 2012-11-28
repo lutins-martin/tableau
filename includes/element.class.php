@@ -78,10 +78,15 @@ abstract class Element
         $this->nom = $nom ;
     }
 
-    public function save()
+    public function save($valueParms=null)
     {
         $firePHP = FirePHP::getInstance() ;
         $values[":nom"] = $this->nom ;
+        if(is_array($valueParms))
+        {
+            foreach($valueParms as $nom => $valeur)
+            $values[$nom] = $valeur ;
+        }
         if($this->loaded)
         {
             $values[':rowid'] = $this->id ;

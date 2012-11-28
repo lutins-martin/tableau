@@ -23,6 +23,8 @@ switch($scriptName)
     break ;
     case "modmessage.php" : $page = PageModMessage::getInstance() ;
     break ;
+    case "styles.php" : $page = PageStyles::getInstance() ;
+    break ;
     case "moteur.php" : $page = Moteur::getInstance() ;
     break ;
 }
