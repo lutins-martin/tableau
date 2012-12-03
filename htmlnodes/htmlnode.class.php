@@ -32,7 +32,7 @@ class HtmlNode
     public function addAttributes($attributes)
     {
         if (!is_array($attributes)) throw new HtmlNodeException("HtmlNode::addAttributes requires an Array as parm: $attributes") ;
-        $this->attributes = merge_array($this->attributes,$attributes) ;
+        $this->attributes = array_merge($this->attributes,$attributes) ;
     }
 
     public function display()

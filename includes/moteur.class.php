@@ -3,6 +3,8 @@ class Moteur extends WebService
 {
     protected $lesEducatrices ;
     protected $lesLocaux ;
+    protected $lesMessages ;
+    protected $lesStyles ;
 
     const ACTION_TABLEAU_CHANGER_LOCAL = 'changerLocal' ;
     const ACTION_TABLEAU_RELECTURE = 'relecture' ;
@@ -19,6 +21,7 @@ class Moteur extends WebService
         parent::init() ;
         $this->lesEducatrices=Educatrices::getInstance() ;
         $this->lesLocaux = Locaux::getInstance() ;
+        $this->lesMessages = Messages::getInstance() ;
         header("Content-type: application/json") ;
         header("Content: text/html; charset=UTF-8") ;
 
@@ -74,6 +77,16 @@ class Moteur extends WebService
                     $edu['local']['id'] = $educatrice->getGroupe()->getLocal()->getId() ;
                     $tableau['locaux'][$educatrice->getId()] = $edu ;
                 }
+
+                $lesMessagesActifs=$this->lesMessages->getLesMessages(true) ;
+                $dernierChangement = strtotime(strftime("%F")) ;
+                foreach($lesMessagesActifs as $unMessage)
+                {
+                    $dernierChangement = max(array($dernierChangement,$unMessage->getDernierChangement())) ;
+                }
+                $dernierStyleStm = $this->db->query("select HEUREDATE from DERNIERCHANGEMENT") ;
+                $dernierStyle = strtotime($dernierStyleStm->fetch(PDO::FETCH_COLUMN)) ;
+                $tableau['dernierChangement'] = max(array($dernierChangement,$dernierStyle)) ;
                 print json_encode($tableau) ;
                 break;
             case self::ACTION_TABLEAU_TOUS_LES_LOCAUX_UNE_EDUCATRICE :

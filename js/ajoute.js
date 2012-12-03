@@ -7,8 +7,10 @@ function ajouteUneSectionNouveau(eventObject)
     divADupliquer.parentNode.insertBefore(divNouveau,divADupliquer.nextSibling)
     var leBoutonAjoute = $(divNouveau).find("input[name='ajoute'][type='button']")[0] ;
     leBoutonAjoute.parentNode.removeChild(leBoutonAjoute) ;
-    var inputTextNouveau = $(divNouveau).find("input[name^='item'][type='text']")[0] ;
-    inputTextNouveau.value = "" ;
+    $(divNouveau).find("input[name^='item'][type='text']").each(function()
+		{
+			this.value = "" ;
+		});
 } ;
 
 function enableOrDisableSubmitButton(eventObject)
@@ -18,7 +20,7 @@ function enableOrDisableSubmitButton(eventObject)
 	var theForm = eventObject.currentTarget.form ;
 	$(theForm).find("input,select").each(function(i,item)
 	{
-		if(item.type=='checkbox')
+		if((item.type=='checkbox') || (item.type=='radio'))
 		{
 			if(item.checked!=item.defaultChecked)
 			{
@@ -91,6 +93,8 @@ function readyProcessor()
     		return confirm(confirmation) ;
 		}
     }) ;
+    
+    if(typeof attacheStylesReadyProcessor == 'function') attacheStylesReadyProcessor() ;
 
 } ;
 

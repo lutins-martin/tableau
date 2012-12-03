@@ -20,6 +20,22 @@ class Messages
         $existsRec = $existsStm->fetchAll(PDO::FETCH_ASSOC) ;
 
         if(count($existsRec)==0) self::$db->query(self::QUERY_CREATE_MESSAGES) ;
+
+        $firePHP = FirePHP::getInstance() ;
+
+        try
+        {
+            $colonneExiste = self::$db->query("select MODIFIELE from MESSAGES") ;
+            if(!($colonneExiste instanceof PDO))
+            {
+                $creerColonne = self::$db->query("alter table MESSAGES add column MODIFIELE timestamp") ;
+            }
+        }
+        catch(Exception $e)
+        {
+            $firePHP->log($e,"exception") ;
+        }
+
     }
 
     public static function getInstance()
@@ -44,7 +60,7 @@ class Messages
     {
         if(count(self::$lesMessages)==0)
         {
-            $tousLesMessageStm = self::$db->query("select ROWID,TITRE,MESSAGE,DEBUT,FIN from MESSAGES order by DEBUT asc") ;
+            $tousLesMessageStm = self::$db->query("select ROWID,TITRE,MESSAGE,DEBUT,FIN,MODIFIELE from MESSAGES order by DEBUT asc") ;
             $lesMessagesBruts = $tousLesMessageStm->fetchAll(PDO::FETCH_ASSOC) ;
             foreach($lesMessagesBruts as $unMessageRec)
             {

@@ -28,13 +28,13 @@ abstract class Element
             if(is_numeric($nomOrId))
             {
                 /* recuperer par index */
-                $query = $this->querySelectParId; //self::SELECT_PAR_UID ;
+                $query = $this->querySelectParId ; //self::SELECT_PAR_UID ;
                 $values[":rowid"] = $nomOrId ;
             }
             else
             {
                 /* recupere par nom */
-                $query = $this->queryParNom ;//self::SELECT_PAR_NOM ;
+                $query = $this->querySelectParNom ;//self::SELECT_PAR_NOM ;
                 $values[":nom"] = $nomOrId ;
             }
 
@@ -81,12 +81,14 @@ abstract class Element
     public function save($valueParms=null)
     {
         $firePHP = FirePHP::getInstance() ;
+        $firePHP->log($this,'element') ;
         $values[":nom"] = $this->nom ;
         if(is_array($valueParms))
         {
             foreach($valueParms as $nom => $valeur)
             $values[$nom] = $valeur ;
         }
+        $firePHP->log($values,'values') ;
         if($this->loaded)
         {
             $values[':rowid'] = $this->id ;
@@ -94,6 +96,7 @@ abstract class Element
         }
         else
             $query = $this->queryInsert ; //self::INSERT ;
+        $firePHP->log($query,'query') ;
         $saveStatement = $this->db->prepare($query) ;
         $saveStatement->execute($values) ;
         $rowId=$saveStatement->fetch(PDO::FETCH_COLUMN) ;

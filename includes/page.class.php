@@ -17,11 +17,12 @@ class Page extends WebService
         $this->addCss("$gridName/reset.css") ;
         $this->addCss("$gridName/text.css") ;
         $this->addCss("$gridName/$gridName.css") ;
-        $this->addCss("styles/style.css") ;
+
+        $lesStyles= Styles::getInstance() ;
+        $styleActif = $lesStyles->getFichierStyleActif() ;
+        $this->addCss($styleActif,'stylesheet') ;
 
         $this->addJs("jquery-1.8.2.js") ;
-
-
     }
 
     public static function getInstance()
@@ -35,7 +36,7 @@ class Page extends WebService
         return str_replace("/home/martin/www","/var/www/apps.leslutins.ca",$source) ;
     }
 
-    public function addCss($fichierCss)
+    public function addCss($fichierCss,$id=null)
     {
         $fichierCssComplet = $this->convertPathRodionov(stream_resolve_include_path ( $fichierCss )) ;
         $fichierCssWWW=str_replace($_SERVER['DOCUMENT_ROOT'],"http://".$_SERVER['SERVER_NAME'],$fichierCssComplet) ;
@@ -45,6 +46,7 @@ class Page extends WebService
             $css['fichier'] = $fichierCssWWW;
             $stat = stat($fichierCssComplet) ;
             $css['modification'] = $stat['mtime'] ;
+            $css['id'] = $id ;
 
             $this->listeCss[] = $css ;
         }
@@ -54,10 +56,13 @@ class Page extends WebService
     {
         if(is_array($this->listeCss))
         {
-            $string = " <link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"__fichier__\" />" ;
+            $string = " <link __id__ rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"__fichier__\" />" ;
             foreach($this->listeCss as $fichierCss)
             {
-                $stringAvecFichier = str_replace("__fichier__",$fichierCss['fichier']."?r=".$fichierCss['modification'],$string) ;
+                $id = "" ;
+                if (isset($fichierCss['id']) && !is_null($fichierCss['id'])) $id = $fichierCss['id'] ;
+                $stringAvecFichier = str_replace("__id__","id=\"$id\"",$string) ;
+                $stringAvecFichier = str_replace("__fichier__",$fichierCss['fichier']."?r=".$fichierCss['modification'],$stringAvecFichier ) ;
                 print $stringAvecFichier."\n" ;
             }
         }
@@ -114,7 +119,7 @@ class Page extends WebService
             </li>
             <li><a href="messages.php" class="menu">messages</a>
             </li>
-            <li><a href="styles.php" class="menu">styles</a>
+            <li><a href="styles.php" class="menu">thèmes</a>
             </li>
         </ul>
     </div>

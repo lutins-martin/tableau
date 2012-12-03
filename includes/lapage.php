@@ -7,6 +7,7 @@
     <title><? $page->afficheLeTitre()?></title>
 </head>
 <body>
+<input id="dernierChangementIci" type="hidden" name="heureDateLecture" value="<?=time()?>"></input>
 <? $page->afficheLeContenu()?>
 </body>
 </html>

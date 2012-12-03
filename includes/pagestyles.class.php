@@ -16,6 +16,7 @@ class PageStyles extends Page
         $this->lesStyles = Styles::getInstance() ;
 
         $this->addJs("ajoute.js") ;
+        $this->addJs("styles.js") ;
 
         $this->titre = "Ajouter/changer les Styles" ;
 
@@ -49,7 +50,6 @@ class PageStyles extends Page
                     $style = $this->lesStyles->getUnstyle($styleId) ;
                     if($style->isLoaded()) $style->delete() ;
 
-                    $processed = true ;
                     unset($StylesAChanger[$styleId]) ;
                     continue ;
                 }
@@ -58,26 +58,28 @@ class PageStyles extends Page
                     if(!is_null($newstyle['nom']) && trim($newstyle['nom'])!="")
                     {
                         $style = $this->lesStyles->getUnstyle($styleId) ;
-                        $firePHP->log($style,'object style') ;
                         $aSauver=false ;
 
                         if($newstyle['nom']!=$style->getNom())
                         {
                             $style->setNom($newstyle['nom']) ;
                             $aSauver=true ;
-                            $processed = true ;
-                            $firePHP->log($style,'object style') ;
                         }
-                        if($newstyle['fichier'] && trim($newstyle['fichier'])!="")
+                        if(trim($newstyle['fichier']) != $style->getNomDeFichier())
                         {
-                            $style->setFichier($newstyle['fichier']) ;
+                            $style->setNomDeFichier($newstyle['fichier']) ;
                             $aSauver=true ;
-                            $processed = true ;
                         }
+
                         if($aSauver) $style->save() ;
                     }
                 }
             }
+
+            $actifId=$this->getRequestParameter('actif') ;
+            $this->lesStyles->setActif($actifId) ;
+            $processed = true ;
+
 
         }
 
@@ -120,19 +122,29 @@ class PageStyles extends Page
 <? $this->afficheLeMenu()?>
 <form action="styles.php" method="post">
 <div class="row">
-    <div class="column grid_3 valeurItem">cliquez pour effacer</div>
+    <div class="column grid_2 valeurItem">pour effacer</div>
     <div class="column grid_4 nomItem">nom du style</div>
     <div class="column grid_4 nomItem">nom du fichier de style</div>
+    <div class="column grid_2 valeurItem">actif</div>
 </div>
 <?php
 if(count($listeStyles))
 {
+    /* ordre alphabetique */
+    $styleOrdonnes = array() ;
     foreach($listeStyles as $style)
     {
+        $styleOrdonnes[$style->getNom()] = $style->getId() ;
+    }
+
+    ksort($styleOrdonnes) ;
+    foreach($styleOrdonnes as $styleId)
+    {
+        $style=$this->lesStyles->getUnStyle($styleId) ;
 ?>
 <div class="row">
             <div id="styleEfface<?=$style->getId()?>"
-                class="column grid_3 valeurItem">
+                class="column grid_2 valeurItem">
 <?
         $effaceBox = new CheckBoxNode(array("name" => "item[{$style->getId()}][efface]")) ;
         print $effaceBox->display() ;
@@ -144,6 +156,23 @@ if(count($listeStyles))
         $boiteDuNom = new TextBoxNode(array("name" => "item[{$style->getId()}][nom]",
         "value" => $style->getNom())) ;
         print $boiteDuNom->display() ;
+?>
+               </div>
+            <div id="styleFichier<?=$style->getId()?>"
+               class="column grid_4 nomItem">
+<?php
+        $boiteDuNomDeFichier = new TextBoxNode(array("name" => "item[{$style->getId()}][fichier]",
+        "value" => $style->getNomDeFichier())) ;
+        print $boiteDuNomDeFichier->display() ;
+?>
+               </div>
+            <div id="actif<?=$style->getId()?>"
+               class="column grid_2 valeurItem">
+<?php
+        $radioActif = new RadioButtonNode(array("name" => "actif",
+        "value" => $style->getId())) ;
+        if($style->getActif()) $radioActif->addAttributes(array("checked"=>"checked")) ;
+        print $radioActif->display() ;
 ?>
                </div>
 </div>

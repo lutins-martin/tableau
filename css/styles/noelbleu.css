@@ -3,8 +3,8 @@ Rejean Prevost - Juillet 2008
 */
 
 html{
-color: white ;
-background: firebrick ;
+color: #03C03C ;
+background: white;
 font-size: 100%; /* WinIE text resize correction */
 }
 
@@ -14,17 +14,17 @@ padding: 0em 0em 0em 0em;
 }
 
 body {
-/* 	background-image: url(images/wall4.png);
+   	background-image: url(noel_bleu.jpg);
 	background-repeat: repeat;
-	height:798px; */
-	background-color: firebrick ;
-	color: #03C03C ;	
+	height:798px;
+	background-color: blue;
+	color: white ;	
 }
 
 div.message {
-	background : white ;
-	color: firebrick ;
-    border: thick solid green;
+	background : #3366FF ;
+	color: white ;
+    border: thick solid #0000FF;
     text-align: left ;
     padding: .4em ;
 }
@@ -56,23 +56,23 @@ list-style-type:none;
 }
 
 a {
-	color : lime ;
+	color : firebrick ;
 }
 
 a.menu {
 float:left;
 text-decoration:none;
-color: white ;
-background-color: green ;
+color: white;
+background-color: #3300FF;
 padding:0.2em 0.6em;
-border:.1em solid lime ;
+border:.1em solid navy;
 }
 
 a:hover.menu 
 {
 	background-color: white;
-	color: firebrick ;
-	border:.1em solid lime;
+	color: #3300FF;
+	border:.1em solid #3300FF;
 }
 
 a.button {
@@ -123,7 +123,7 @@ text-align:center;
 }
 
 #header{
-color: lime ;
+color: red ;
 height:2em;
 /* background-image: url(images/Seamles-Blue-03.jpg) ; */
 margin:.25em 0em 0em 0em;
@@ -131,7 +131,6 @@ padding:.25em 0em 0em 0em;
 text-align:center;
 letter-spacing: -0.05em;
 font-size: 2.2em;
-font-weight: bold ;
 line-height: 1.2em;
 font-family: Times,Book Antiqua,Century Gothic,serif ;
 }
@@ -194,7 +193,7 @@ line-height: 1em;
     font-weight: bold ;
 }
 .date {
-    font-size: 2em;
+    font-size: 1.3em;
 }
 .heure {
     font-size: 3em;
@@ -214,19 +213,19 @@ font-family: arial,helvetica,sans-serif;
 
 
 .nomItem {
-    border: thin solid green ;
-    color: green ;
+    border: thin solid red ;
+    color: #0033CC ;
     background: white ;
 }
 
 .valeurItem {
-    border: thin solid firebrick ;
-    color: black ;
+    border: thin solid red ;
+    color: #0033CC ;
 	background: white;
 }
 
 .boiteAutour {
-    border: thin solid lime ;
+    border: thin solid #3300FF ;
     padding: .2em ;
     margin: .1em;
 }

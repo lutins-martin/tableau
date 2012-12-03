@@ -14,17 +14,17 @@ padding: 0em 0em 0em 0em;
 }
 
 body {
-/* 	background-image: url(images/wall4.png);
+ 	background-image: url(noel_neige_lune-1280x800.jpg);
 	background-repeat: repeat;
-	height:798px; */
+	height:798px;
 	background-color: white;
 	color: #03C03C ;	
 }
 
 div.message {
-	background : cornsilk ;
-	color: firebrick ;
-    border: thick solid green;
+	background : #3333FF ;
+	color: white ;
+    border: thick solid #CC0033;
     text-align: left ;
     padding: .4em ;
 }
@@ -63,7 +63,7 @@ a.menu {
 float:left;
 text-decoration:none;
 color: white;
-background-color: firebrick;
+background-color: #CC0033;
 padding:0.2em 0.6em;
 border:.1em solid maroon;
 }
@@ -213,19 +213,19 @@ font-family: arial,helvetica,sans-serif;
 
 
 .nomItem {
-    border: thin solid green ;
+    border: thin solid #6633FF ;
     color: green ;
     background: white ;
 }
 
 .valeurItem {
-    border: thin solid firebrick ;
+    border: thin solid #6633FF ;
     color: black ;
 	background: white;
 }
 
 .boiteAutour {
-    border: thin solid maroon ;
+    border: thin solid #6633FF ;
     padding: .2em ;
     margin: .1em;
 }

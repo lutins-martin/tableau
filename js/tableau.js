@@ -65,6 +65,20 @@ function receptionDesDonnees(data)
             
         } ;
     } ;
+    
+    if(data.dernierChangement && !document.refuseChangement)
+    {
+    	var dernierChangementIci = $("#dernierChangementIci") ;
+    	if(dernierChangementIci.length==1)
+    	{
+    		dernierChangementIci = dernierChangementIci[0] ;
+    		if (data.dernierChangement > dernierChangementIci.value)
+    		{
+    			location.reload() ;
+    		}
+    	}
+    }
+
 } ;
 
 function afficherDeplacement()

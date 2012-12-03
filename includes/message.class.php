@@ -7,9 +7,10 @@ class Message
     protected $titre ;
     protected $debut ;
     protected $fin ;
+    protected $dateHeureModification ;
     protected $id ;
 
-    const QUERY_LOAD = "select ROWID,MESSAGE,DEBUT,FIN from MESSAGES where ROWID=:id" ;
+    const QUERY_LOAD = "select ROWID,MESSAGE,DEBUT,FIN,MODIFIELE from MESSAGES where ROWID=:id" ;
     const QUERY_LOAD_NOUVEAU = "select TITRE from MESSAGES where TITRE like 'nouveau message%' ORDER BY TITRE DESC limit 1" ;
 
     public function __construct($id=null)
@@ -19,6 +20,7 @@ class Message
         if(!is_null($id))
         {
             $loadStm = $this->db->prepare(self::QUERY_LOAD) ;
+            $firePHP->log($loadStm,'load statement') ;
             $loadStm->execute(array(":id" => $id)) ;
 
             $messageRecord = $loadStm->fetch(PDO::FETCH_ASSOC) ;
@@ -55,6 +57,8 @@ class Message
             $this->titre=$databaseRecord['TITRE'] ;
             $this->debut = strtotime($databaseRecord['DEBUT']) ;
             $this->fin = strtotime($databaseRecord['FIN']) ;
+            if(isset($databaseRecord['MODIFIELE'])) $this->dateHeureModification = strtotime($databaseRecord['MODIFIELE']) ;
+            else $this->dateHeureModification = time() ;
             $this->loaded = true ;
         }
     }
@@ -65,14 +69,15 @@ class Message
         $values[":titre"] = $this->titre ;
         $values[":message"] = $this->message ;
         $values[":debut"] = strftime("%F",$this->debut) ;
+        $values[":modifie_le"] = strftime("%F %T") ;
         $values[":fin"] = strftime("%F",$this->fin) ;
         if($this->loaded)
         {
             $values[':rowid'] = $this->id ;
-            $query = "update MESSAGES set TITRE=:titre,MESSAGE=:message,DEBUT=:debut,FIN=:fin where rowid=:rowid" ; //self::UPDATE ;
+            $query = "update MESSAGES set TITRE=:titre,MESSAGE=:message,DEBUT=:debut,FIN=:fin,MODIFIELE=:modifie_le where rowid=:rowid" ; //self::UPDATE ;
         }
         else
-            $query = "insert into MESSAGES (TITRE,MESSAGE,DEBUT,FIN) values (:titre,:message,:debut,:fin)" ; //self::INSERT ;
+            $query = "insert into MESSAGES (TITRE,MESSAGE,DEBUT,FIN,MODIFIELE) values (:titre,:message,:debut,:fin,:modifie_le)" ; //self::INSERT ;
         $saveStatement = $this->db->prepare($query) ;
         $saveStatement->execute($values) ;
         $rowId=$saveStatement->fetch(PDO::FETCH_COLUMN) ;
@@ -142,6 +147,12 @@ class Message
     {
         if($formatted) return strftime("%F",$this->fin) ;
         else return $this->fin ;
+    }
+
+    public function getDernierChangement($formatted=false)
+    {
+        if($formatted) return strftime("%F",$this->dateHeureModification) ;
+        else return $this->dateHeureModification ;
     }
 
     public function isLoaded()

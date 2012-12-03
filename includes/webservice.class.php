@@ -15,7 +15,7 @@ class WebService
         try
         {
             //create or open the database
-            $this->database = Database::getInstance() ;
+            $this->db = Database::getInstance() ;
             $firePHP = FirePHP::getInstance(true) ;
             $firePHP->setEnabled(true) ;
         }
