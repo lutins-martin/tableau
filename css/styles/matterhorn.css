@@ -1,11 +1,11 @@
 html{
 color: white ;
-background: firebrick ;
+background: grey ;
 font-size: 100%; /* WinIE text resize correction */
 }
 
 body {
- 	background-image: url(snowboarding-1280x800.jpg);
+ 	background-image: url(matterhorn.jpg);
 	background-repeat: repeat;
 	height:798px; 
 	background-color: #0066CC ;
@@ -13,9 +13,9 @@ body {
 }
 
 div.message {
-	background : dodgerblue ;
+	background : lightgray ;
 	color: black ;
-    border: thick solid white;
+    border: thick solid crimson;
     text-align: left ;
     padding: .4em ;
 }
@@ -84,13 +84,13 @@ font-family: Times,Book Antiqua,Century Gothic,serif ;
 
 .nomItem {
     border: thin solid black ;
-    color: black ;
+    color: crimson ;
 /*    background: white ; */
 }
 
 .valeurItem {
     border: thin solid black ;
-    color: black ;
+    color: crimson ;
 /*	background: white; */
 }
 

@@ -17,6 +17,7 @@ class Page extends WebService
         $this->addCss("$gridName/reset.css") ;
         $this->addCss("$gridName/text.css") ;
         $this->addCss("$gridName/$gridName.css") ;
+        $this->addCss("css/styles/tableau.css") ;
 
         $lesStyles= Styles::getInstance() ;
         $styleActif = $lesStyles->getFichierStyleActif() ;
@@ -33,14 +34,15 @@ class Page extends WebService
 
     private function convertPathRodionov($source)
     {
-        return str_replace("/home/martin/www","/var/www/apps.leslutins.ca",$source) ;
+        $converted = str_replace("/home/martin/www","/var/www/apps.leslutins.ca",$source) ;
+        return str_replace("/home/martin/tableau","/var/www/tableau",$converted) ;
     }
 
     public function addCss($fichierCss,$id=null)
     {
         $fichierCssComplet = $this->convertPathRodionov(stream_resolve_include_path ( $fichierCss )) ;
         $fichierCssWWW=str_replace($_SERVER['DOCUMENT_ROOT'],"http://".$_SERVER['SERVER_NAME'],$fichierCssComplet) ;
-
+        
         if($fichierCssComplet!==false)
         {
             $css['fichier'] = $fichierCssWWW;

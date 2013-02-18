@@ -1,11 +1,11 @@
 html{
 color: white ;
-background: firebrick ;
+background: navy ;
 font-size: 100%; /* WinIE text resize correction */
 }
 
 body {
- 	background-image: url(snowboarding-1280x800.jpg);
+ 	background-image: url(tente_montagne.jpg);
 	background-repeat: repeat;
 	height:798px; 
 	background-color: #0066CC ;
@@ -13,9 +13,9 @@ body {
 }
 
 div.message {
-	background : dodgerblue ;
-	color: black ;
-    border: thick solid white;
+	background : navy ;
+	color: white ;
+    border: thick solid lightgray;
     text-align: left ;
     padding: .4em ;
 }
@@ -83,14 +83,14 @@ font-family: Times,Book Antiqua,Century Gothic,serif ;
 }
 
 .nomItem {
-    border: thin solid black ;
-    color: black ;
+    border: thin solid crimson ;
+    color: dodgerblue ;
 /*    background: white ; */
 }
 
 .valeurItem {
-    border: thin solid black ;
-    color: black ;
+    border: thin solid crimson ;
+    color: dodgerblue ;
 /*	background: white; */
 }
 
