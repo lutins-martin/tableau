@@ -183,6 +183,16 @@ function relireLheure()
 	$("#heure").each(function()
 			{
 				$(this).html("&nbsp;"+ maintenant.getHeure() + "&nbsp;") ;
+				if(isNaN(this.scrollToViewTimer))
+				{
+					this.scrollToViewTimer=0 ;
+				}
+				this.scrollToViewTimer++ ;
+				if(this.scrollToViewTimer==10)
+				{
+					this.scrollIntoView(true) ;
+					this.scrollToViewTimer=0 ;
+				}
 			}
 			) ;
 	$("#date").each(function()
