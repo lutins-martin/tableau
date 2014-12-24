@@ -1,130 +1,141 @@
 <?php
-class Moteur extends WebService
-{
-    protected $lesEducatrices ;
-    protected $lesLocaux ;
-    protected $lesMessages ;
-    protected $lesStyles ;
 
-    const ACTION_TABLEAU_CHANGER_LOCAL = 'changerLocal' ;
-    const ACTION_TABLEAU_RELECTURE = 'relecture' ;
-    const ACTION_TABLEAU_TOUS_LES_LOCAUX_UNE_EDUCATRICE = 'tousLesLocauxPour' ;
+class Moteur extends WebService {
 
-    public static function getInstance()
-    {
-        if(!isset(self::$instance)) self::$instance= new self() ;
-        return self::$instance ;
+    protected $lesEducatrices;
+
+    protected $lesLocaux;
+
+    protected $lesMessages;
+
+    protected $lesStyles;
+
+    const ACTION_TABLEAU_CHANGER_LOCAL = 'changerLocal';
+
+    const ACTION_TABLEAU_RELECTURE = 'relecture';
+
+    const ACTION_TABLEAU_TOUS_LES_LOCAUX_UNE_EDUCATRICE = 'tousLesLocauxPour';
+
+    const ACTION_TABLEAU_TOUS_LES_LOCAUX = 'tousLesLocaux';
+
+    const ACTION_TABLEAU_BACKGROUND_IMAGE = "getBackgroundImage";
+
+    public static function getInstance() {
+        if (! isset ( self::$instance )) self::$instance = new self ();
+        return self::$instance;
     }
 
-    public function init()
-    {
-        parent::init() ;
-        $this->lesEducatrices=Educatrices::getInstance() ;
-        $this->lesLocaux = Locaux::getInstance() ;
-        $this->lesMessages = Messages::getInstance() ;
-        header("Content-type: application/json") ;
-        header("Content: text/html; charset=UTF-8") ;
-
+    public function init() {
+        parent::init ();
+        $this->lesEducatrices = Educatrices::getInstance ();
+        $this->lesLocaux = Locaux::getInstance ();
+        $this->lesMessages = Messages::getInstance ();
+        header ( "Content-type: application/json" );
+        header ( "Content: text/html; charset=UTF-8" );
     }
 
-    public function processRequest()
-    {
-        $firePHP = FirePHP::getInstance() ;
-
-        $action = $this->getRequestParameter('action') ;
-
-        $firePHP->log($_REQUEST,'request') ;
-        switch ($action)
-        {
+    public function processRequest() {
+        $firePHP = FirePHP::getInstance ();
+        
+        $action = $this->getRequestParameter ( 'action' );
+        
+        $firePHP->log ( $_REQUEST, 'request' );
+        switch ($action) {
             case self::ACTION_TABLEAU_CHANGER_LOCAL :
-                try
-                {
-                    $listeEducatrice=$this->getRequestParameter('local') ;
-                    $firePHP->log($listeEducatrice,'educatrice') ;
-                    if(is_array($listeEducatrice))
-                    {
-                        $firePHP->trace(__FILE__.":".__LINE__) ;
-                        foreach($listeEducatrice as $educatriceId => $localId)
-                        {
-                            $educatrice = $this->lesEducatrices->getUneEducatrice($educatriceId) ;
-                            $firePHP->log($educatrice,'educatrice object') ;
-                            if($educatrice->isLoaded())
-                            {
-                                $educatrice->setLocal($localId) ;
-                                $educatrice->save() ;
+                try {
+                    $listeEducatrice = $this->getRequestParameter ( 'local' );
+                    $firePHP->log ( $listeEducatrice, 'educatrice' );
+                    if (is_array ( $listeEducatrice )) {
+                        $firePHP->trace ( __FILE__ . ":" . __LINE__ );
+                        foreach ( $listeEducatrice as $educatriceId => $localId ) {
+                            $educatrice = $this->lesEducatrices->getUneEducatrice ( $educatriceId );
+                            $firePHP->log ( $educatrice, 'educatrice object' );
+                            if ($educatrice->isLoaded ()) {
+                                $educatrice->setLocal ( $localId );
+                                $educatrice->save ();
                             }
                         }
                     }
-                    print json_encode($output['resultat']=true) ;
-                }
-                catch (Exception $e)
-                {
-                    $output['resultat'] = false ;
-                    $output['erreur'] = $e->getMessage() ;
-                    print json_encode($output) ;
+                    print json_encode ( $output ['resultat'] = true );
+                } catch ( Exception $e ) {
+                    $output ['resultat'] = false;
+                    $output ['erreur'] = $e->getMessage ();
+                    print json_encode ( $output );
                 }
                 break;
             case self::ACTION_TABLEAU_RELECTURE :
-                header("Content-type: application/json") ;
-                $tableau = array() ;
-                $listeEducatrices = $this->lesEducatrices->getLesEducatrices() ;
-                foreach($listeEducatrices  as $educatrice)
-                {
-                    $edu['nom'] = $educatrice->getNom() ;
-                    $edu['groupe']['nom'] = $educatrice->getGroupe()->getNom() ;
-                    $edu['groupe']['id'] = $educatrice->getGroupe()->getId() ;
-                    $edu['local']['nom'] = $educatrice->getGroupe()->getLocal()->getNom() ;
-                    $edu['local']['id'] = $educatrice->getGroupe()->getLocal()->getId() ;
-                    $tableau['locaux'][$educatrice->getId()] = $edu ;
+                header ( "Content-type: application/json" );
+                $tableau = array ();
+                $listeEducatrices = $this->lesEducatrices->getLesEducatrices ();
+                $format = $this->getRequestParameter ( "format" );
+                foreach ( $listeEducatrices as $educatrice ) {
+                    $edu ['nom'] = $educatrice->getNom ();
+                    $edu ['groupe'] ['nom'] = $educatrice->getGroupe ()->getNom ();
+                    $edu ['groupe'] ['id'] = $educatrice->getGroupe ()->getId ();
+                    $edu ['local'] ['nom'] = $educatrice->getGroupe ()->getLocal ()->getNom ();
+                    $edu ['local'] ['id'] = $educatrice->getGroupe ()->getLocal ()->getId ();
+                    $tableau ['locaux'] [$educatrice->getId ()] = $edu;
                 }
-
-                $lesMessagesActifs=$this->lesMessages->getLesMessages(true) ;
-                $dernierChangement = strtotime(strftime("%F")) ;
-                foreach($lesMessagesActifs as $unMessage)
-                {
-                    $dernierChangement = max(array($dernierChangement,$unMessage->getDernierChangement())) ;
+                
+                $lesMessagesActifs = $this->lesMessages->getLesMessages ( true );
+                $dernierChangement = strtotime ( strftime ( "%F" ) );
+                foreach ( $lesMessagesActifs as $unMessage ) {
+                    $dernierChangement = max ( 
+                            array (
+                                    $dernierChangement,
+                                    $unMessage->getDernierChangement () ) );
                 }
-                $dernierStyleStm = $this->db->query("select HEUREDATE from DERNIERCHANGEMENT") ;
-                $dernierStyle = strtotime($dernierStyleStm->fetch(PDO::FETCH_COLUMN)) ;
-                $tableau['dernierChangement'] = max(array($dernierChangement,$dernierStyle)) ;
-                print json_encode($tableau) ;
+                $dernierStyleStm = $this->db->query ( "select HEUREDATE from DERNIERCHANGEMENT" );
+                $dernierStyle = strtotime ( $dernierStyleStm->fetch ( PDO::FETCH_COLUMN ) );
+                $tableau ['dernierChangement'] = max ( 
+                        array (
+                                $dernierChangement,
+                                $dernierStyle ) );
+                if ($format == "asAVariable") {
+                    print "var tousLesLocaux = " . json_encode ( $tableau );
+                } else {
+                    print json_encode ( $tableau );
+                }
+                
                 break;
             case self::ACTION_TABLEAU_TOUS_LES_LOCAUX_UNE_EDUCATRICE :
-                try
-                {
-                    $educatriceId=$this->getRequestParameter('educatriceId') ;
-                    $educatrice = $this->lesEducatrices->getUneEducatrice($educatriceId) ;
-                    $firePHP->log($educatrice,'educatrice object') ;
-                    $output['educatriceId'] = $educatriceId ;
-                    $output['selected'] = $educatrice->getLocal()->getId() ;
-                    if($educatrice->isLoaded())
-                    {
-                        $lesLocaux = $this->lesLocaux->getLesLocaux() ;
-                        foreach($lesLocaux as $local)
-                        {
-                            $localSimple = array() ;
-                            $localSimple['name'] = $local->getNom() ;
-                            $localSimple['value'] = $local->getId() ;
-                            if($local->getId()==$output['selected'])
-                            $localSimple['selected'] = 'selected' ;
-                            $output['locaux'][] = $localSimple ;
-                        }
+            case self::ACTION_TABLEAU_TOUS_LES_LOCAUX :
+                try {
+                    $educatriceId = $this->getRequestParameter ( 'educatriceId' );
+                    $educatrice = $this->lesEducatrices->getUneEducatrice ( $educatriceId );
+                    $firePHP->log ( $educatrice, 'educatrice object' );
+                    if ($educatriceId !== null) {
+                        $output ['educatriceId'] = $educatriceId;
+                        $output ['selected'] = $educatrice->getLocal ()->getId ();
+                    } 
+                    $lesLocaux = $this->lesLocaux->getLesLocaux ();
+                    foreach ( $lesLocaux as $local ) {
+                        $localSimple = array ();
+                        $localSimple ['name'] = $local->getNom ();
+                        $localSimple ['value'] = intval($local->getId ());
+                        if (isset ( $output ['selected'] ) && ($local->getId () == $output ['selected'])) $localSimple ['selected'] = 'selected';
+                        $output ['locaux'] [] = $localSimple;
                     }
-                    print json_encode($output) ;
+                    print json_encode ( $output );
+                } catch ( Exception $e ) {
+                    $output ['resultat'] = false;
+                    $output ['erreur'] = $e->getMessage ();
+                    print json_encode ( $output );
                 }
-                catch (Exception $e)
-                {
-                    $output['resultat'] = false ;
-                    $output['erreur'] = $e->getMessage() ;
-                    print json_encode($output) ;
-                }
-                break ;
-            default:
-                print json_encode($output['resultat']=true) ;
-                break ;
-
+                break;
+            case self::ACTION_TABLEAU_BACKGROUND_IMAGE :
+                $backgroundImageFileName = "css/" . Styles::getInstance ()->getFichierStyleActif ();
+                $size = getimagesize ( $backgroundImageFileName );
+                
+                // Now that you know the mime type, include it in the header.
+                header ( 'Content-type: ' . $size ['mime'] );
+                
+                // Read the image and send it directly to the output.
+                readfile ( $backgroundImageFileName );
+                break;
+            default :
+                print json_encode ( $output ['resultat'] = true );
+                break;
         }
-
     }
-
 }

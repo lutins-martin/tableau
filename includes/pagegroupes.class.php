@@ -97,10 +97,10 @@ class PageGroupes extends Page
         ?>
 <div id="wrapper" class="row">
     <div id="hd">
-        <h1 id="header"><?=$this->afficheLeTitre()?></h1>
+        <h1 id="header"><?php echo $this->afficheLeTitre()?></h1>
     </div>
 </div>
-<? $this->afficheLeMenu()?>
+<?php $this->afficheLeMenu()?>
 <form action="groupes.php" method="post">
 <div class="row">
     <div class="column grid_3 valeurItem">cliquez pour effacer</div>
@@ -113,14 +113,14 @@ if(count($listeGroupes))
     {
 ?>
 <div class="row">
-            <div id="groupeEfface<?=$groupe->getId()?>"
+            <div id="groupeEfface<?php echo $groupe->getId()?>"
                 class="column grid_3 valeurItem">
-<?
+<?php
         $effaceBox = new CheckBoxNode(array("name" => "item[{$groupe->getId()}][efface]")) ;
         print $effaceBox->display() ;
 ?>
             </div>
-            <div id="groupeNom<?=$groupe->getId()?>"
+            <div id="groupeNom<?php echo $groupe->getId()?>"
                class="column grid_4 nomItem">
 <?php
         $boiteDuNom = new TextBoxNode(array("name" => "item[{$groupe->getId()}][nom]",

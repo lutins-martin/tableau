@@ -6,6 +6,7 @@ spl_autoload_register() ;
 $scriptName = basename( $_SERVER['SCRIPT_FILENAME']) ;
 
 $firePHP = FirePHP::getInstance(true) ;
+FirePHP::getInstance()->log($tableauRootDir,'tableau root dir') ;
 $firePHP->log($scriptName,'scriptName') ;
 switch($scriptName)
 {

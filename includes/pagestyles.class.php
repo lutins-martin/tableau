@@ -116,10 +116,10 @@ class PageStyles extends Page
         ?>
 <div id="wrapper" class="row">
     <div id="hd">
-        <h1 id="header"><?=$this->afficheLeTitre()?></h1>
+        <h1 id="header"><?php echo $this->afficheLeTitre()?></h1>
     </div>
 </div>
-<? $this->afficheLeMenu()?>
+<?php $this->afficheLeMenu()?>
 <form action="styles.php" method="post">
 <div class="row">
     <div class="column grid_2 valeurItem">pour effacer</div>
@@ -143,14 +143,14 @@ if(count($listeStyles))
         $style=$this->lesStyles->getUnStyle($styleId) ;
 ?>
 <div class="row">
-            <div id="styleEfface<?=$style->getId()?>"
+            <div id="styleEfface<?php echo $style->getId()?>"
                 class="column grid_2 valeurItem">
-<?
+<?php
         $effaceBox = new CheckBoxNode(array("name" => "item[{$style->getId()}][efface]")) ;
         print $effaceBox->display() ;
 ?>
             </div>
-            <div id="styleNom<?=$style->getId()?>"
+            <div id="styleNom<?php echo $style->getId()?>"
                class="column grid_4 nomItem">
 <?php
         $boiteDuNom = new TextBoxNode(array("name" => "item[{$style->getId()}][nom]",
@@ -158,7 +158,7 @@ if(count($listeStyles))
         print $boiteDuNom->display() ;
 ?>
                </div>
-            <div id="styleFichier<?=$style->getId()?>"
+            <div id="styleFichier<?php echo $style->getId()?>"
                class="column grid_4 nomItem">
 <?php
         $boiteDuNomDeFichier = new TextBoxNode(array("name" => "item[{$style->getId()}][fichier]",
@@ -166,7 +166,7 @@ if(count($listeStyles))
         print $boiteDuNomDeFichier->display() ;
 ?>
                </div>
-            <div id="actif<?=$style->getId()?>"
+            <div id="actif<?php echo $style->getId()?>"
                class="column grid_2 valeurItem">
 <?php
         $radioActif = new RadioButtonNode(array("name" => "actif",

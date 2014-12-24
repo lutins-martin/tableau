@@ -88,6 +88,19 @@ class Styles
         }
         return "styles/style.css" ;
     }
+    
+    public static function getFichierBackgroundActif()
+    {
+        Database::getInstance()->query("select rowid from STYLES where ACTIF=1") ;
+        $styleId = $actifStm->fetch(PDO::FETCH_COLUMN) ;
+        if($styleId!==false)
+        {
+            $style= self::getUnStyle($styleId) ;
+        
+            return "styles/".$style->getNomDeFichier() ;
+        }
+        return "styles/style.css" ;        
+    }
 
     public static function getLesStyles()
     {

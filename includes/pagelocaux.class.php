@@ -88,7 +88,7 @@ class PageLocaux extends Page
         <h1 id="header">Ajouter/changer les locaux</h1>
     </div>
 </div>
-<? $this->afficheLeMenu()?>
+<?php $this->afficheLeMenu()?>
 <form action="locaux.php" method="post">
 <div class="row">
     <div class="column grid_3 valeurItem">cliquez pour effacer</div>
@@ -103,14 +103,14 @@ if(count($listeLocaux))
     {
 ?>
 <div class="row">
-            <div id="localEfface<?=$local->getId()?>"
+            <div id="localEfface<?php echo $local->getId()?>"
                 class="column grid_3 valeurItem">
-<?
+<?php
         $effaceBox = new CheckBoxNode(array("name" => "item[{$local->getId()}][efface]")) ;
         print $effaceBox->display() ;
 ?>
             </div>
-            <div id="localNom<?=$local->getId()?>"
+            <div id="localNom<?php echo $local->getId()?>"
                class="column grid_4 nomItem">
 <?php
         $boiteDuNom = new TextBoxNode(array("name" => "item[{$local->getId()}][nom]",

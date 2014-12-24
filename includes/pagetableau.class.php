@@ -18,6 +18,7 @@ class PageTableau extends Page
 
     public static function getInstance()
     {
+        FirePHP::getInstance()->trace(__METHOD__) ;
         if(!isset(self::$instance)) self::$instance= new self() ;
         return self::$instance ;
     }
@@ -47,13 +48,13 @@ if(count($listeEducatrices))
 <div class="column grid_9">
 <div class="row">
         <div class="column boiteAutour grid_8">
-            <div id="educatrice<?=$educatrice->getId()?>"
+            <div id="educatrice<?php echo $educatrice->getId()?>"
                 class="column grid_4 valeurItem">
-                <?="{$educatrice->getNom()} ({$educatrice->getGroupe()->getNom()})"?>
+                <?php echo "{$educatrice->getNom()} ({$educatrice->getGroupe()->getNom()})"?>
             </div>
-            <div id="local<?=$educatrice->getId()?>"
-                class="column grid_3 nomItem local"><?="{$educatrice->getGroupe()->getLocal()->getNom()}"?></div>
-            <div class="column cache boutonEdition"><img id="bouton<?=$educatrice->getId()?>" src="images/group_edit.png" title="cliquez ici pour indiquer un déplacement"></div>
+            <div id="local<?php echo $educatrice->getId()?>"
+                class="column grid_3 nomItem local"><?php echo "{$educatrice->getGroupe()->getLocal()->getNom()}"?></div>
+            <div class="column cache boutonEdition"><img id="bouton<?php echo $educatrice->getId()?>" src="images/group_edit.png" title="cliquez ici pour indiquer un déplacement"></div>
         </div>
     </div>
 </div>
@@ -67,17 +68,17 @@ if(count($listeEducatrices))
 foreach($lesMessageAujourdhui as $message)
 {
     ?>
-    <div id="message<?=$message->getId()?>" class="row">
+    <div id="message<?php echo $message->getId()?>" class="row">
     <div class="column grid_6 message">
-    <h1><?=$message->getTitre()?></h1>
-    <div><?=$message->getMessage()?></div>
+    <h1><?php echo $message->getTitre()?></h1>
+    <div><?php echo $message->getMessage()?></div>
     </div>
     </div>
-    <?
+    <?php
 }
 ?>
 </div>
-<? $this->afficheLeMenu() ;
+<?php $this->afficheLeMenu() ;
     }
 
     public function afficheLeMenu()

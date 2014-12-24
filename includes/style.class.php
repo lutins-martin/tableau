@@ -17,7 +17,7 @@ class Style extends Element
     {
         parent::__construct($nomOrId,self::SELECT_PAR_NOM,
         self::SELECT_PAR_ROWID,self::INSERT,self::UPDATE,self::DELETE) ;
-        $thie->actif = false ;
+        $this->actif = false ;
     }
 
     public function setNomDeFichier($nomDeFichier)

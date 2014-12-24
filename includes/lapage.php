@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <?=$page->insererTousLesCss()?>
-    <?=$page->insererTousLesJs()?>
-    <title><? $page->afficheLeTitre()?></title>
+    <?php echo $page->insererTousLesCss()?>
+    <?php echo $page->insererTousLesJs()?>
+    <title><?php $page->afficheLeTitre()?></title>
 </head>
 <body>
-<input id="dernierChangementIci" type="hidden" name="heureDateLecture" value="<?=time()?>"></input>
-<? $page->afficheLeContenu()?>
+<input id="dernierChangementIci" type="hidden" name="heureDateLecture" value="<?php echo time()?>"></input>
+<?php echo $page->afficheLeContenu()?>
 </body>
 </html>

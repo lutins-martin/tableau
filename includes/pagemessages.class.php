@@ -72,7 +72,7 @@ class PageMessages extends Page
         <h1 id="header"><?php $this->afficheLeTitre()?></h1>
     </div>
 </div>
-<? $this->afficheLeMenu()?>
+<?php $this->afficheLeMenu()?>
 <form action="modmessage.php" method="post">
 <div class="row">
     <div class="column grid_2 nomItem">effacer</div>
@@ -88,21 +88,21 @@ if(count($listeMessages))
     {
 ?>
 <div class="row">
-            <div id="messageEfface<?=$message->getId()?>"
+            <div id="messageEfface<?php echo $message->getId()?>"
                 class="column grid_2 nomItem">
-                <input type="checkbox" name="messageEfface[<?=$message->getId()?>]" value="on"></input>
+                <input type="checkbox" name="messageEfface[<?php echo $message->getId()?>]" value="on"></input>
             </div>
-            <div id="messageDebut<?=$message->getId()?>"
+            <div id="messageDebut<?php echo $message->getId()?>"
                 class="column grid_3 valeurItem">
-                <?=$message->getDebut(true)?>
+                <?php echo $message->getDebut(true)?>
             </div>
-            <div id="messageFin<?=$message->getId()?>"
+            <div id="messageFin<?php echo $message->getId()?>"
                class="column grid_3 valeurItem">
-               <?=$message->getFin(true)?>
+               <?php echo $message->getFin(true)?>
                </div>
             <div id="messageTitre<?$message->getId()?>"
                class="column grid_4 nomItem">
-<a href="modmessage.php?messageId=<?=$message->getId()?>&titre=<?=$message->getTitre()?>" title="cliquer pour voir et changer le message"><?=$message->getTitre()?></a>
+<a href="modmessage.php?messageId=<?php echo $message->getId()?>&titre=<?php echo $message->getTitre()?>" title="cliquer pour voir et changer le message"><?php echo $message->getTitre()?></a>
                </div>
 </div>
 <?php

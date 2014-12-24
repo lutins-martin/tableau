@@ -31,10 +31,10 @@ class PageDeplacements extends Page
         ?>
 <div id="wrapper" class="row">
 	<div id="hd">
-		<h1 id="header"><?=$this->afficheLeTitre()?></h1>
+		<h1 id="header"><?php echo $this->afficheLeTitre()?></h1>
 	</div>
 </div>
-<? $this->afficheLeMenu()?>
+<?php $this->afficheLeMenu()?>
 
         <?php
         $listeEducatrices = $this->lesEducatrices->getLesEducatrices() ;
@@ -46,13 +46,13 @@ class PageDeplacements extends Page
 <form>
 	<div class="row">
 		<div class="column boiteAutour grid_9">
-			<div id="educatrice<?=$educatrice->getId()?>"
+			<div id="educatrice<?php echo $educatrice->getId()?>"
 				class="column grid_4 valeurItem">
-				<?="{$educatrice->getNom()} ({$educatrice->getGroupe()->getNom()})"?>
+				<?php echo "{$educatrice->getNom()} ({$educatrice->getGroupe()->getNom()})"?>
 			</div>
-			<div id="changementDeLocal<?=$educatrice->getId()?>"
+			<div id="changementDeLocal<?php echo $educatrice->getId()?>"
 				class="column grid_4 nomItem">
-				<?
+				<?php
 				$selectLocal = new SelectNode(array("name" => "local[{$educatrice->getId()}]",
     "width" => 60));
 				$selectLocal->addOption("") ;

@@ -84,9 +84,9 @@ class PageModMessage extends Page
         <h1 id="header"><?php $this->afficheLeTitre()?></h1>
     </div>
 </div>
-<? $this->afficheLeMenu()?>
+<?php $this->afficheLeMenu()?>
 <form action="modmessage.php" method="post">
-<input type="hidden" name="messageId" value="<?=$this->monMessage->getId()?>"></input>
+<input type="hidden" name="messageId" value="<?php echo $this->monMessage->getId()?>"></input>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>
     <div class="column grid_4 valeurItem">début</div>
@@ -94,17 +94,17 @@ class PageModMessage extends Page
 </div>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>
-    <div class="column grid_4 valeurItem"><input type="text" name="debut" value="<?=$this->monMessage->getDebut(true)?>" size="10" class="dateInput"></input></div>
-    <div class="column grid_4 valeurItem"><input type="text" name="fin" value="<?=$this->monMessage->getFin(true)?>" size="10" class="dateInput"></div>
+    <div class="column grid_4 valeurItem"><input type="text" name="debut" value="<?php echo $this->monMessage->getDebut(true)?>" size="10" class="dateInput"></input></div>
+    <div class="column grid_4 valeurItem"><input type="text" name="fin" value="<?php echo $this->monMessage->getFin(true)?>" size="10" class="dateInput"></div>
 </div>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>
     <div class="column grid_13 nomItem"><label for="titreMessage">Titre </label>
-    <input id="titreMessage" type="text" name="titre" value="<?=$this->monMessage->getTitre()?>" size="100"></input></div>
+    <input id="titreMessage" type="text" name="titre" value="<?php echo $this->monMessage->getTitre()?>" size="100"></input></div>
 </div>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>
-    <div class="column grid_13 nomItem"><textarea id="messageBox" name="message" cols="80" rows="20"><?=$this->monMessage->getMessage()?></textarea></div>
+    <div class="column grid_13 nomItem"><textarea id="messageBox" name="message" cols="80" rows="20"><?php echo $this->monMessage->getMessage()?></textarea></div>
 </div>
 <div class="row">
     <div class="column grid_2">&nbsp;</div>

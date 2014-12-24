@@ -39,9 +39,9 @@ class WebService
         else return null ;
     }
 
-    public function getRequestParameter($parametre)
+    public function getRequestParameter($parametre,$valeurParDefault=null)
     {
         if(isset($_REQUEST[$parametre])) return $_REQUEST[$parametre] ;
-        else return null ;
+        else return $valeurParDefault ;
     }
 }

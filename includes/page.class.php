@@ -35,7 +35,7 @@ class Page extends WebService
     private function convertPathRodionov($source)
     {
         $converted = str_replace("/home/martin/www","/var/www/apps.leslutins.ca",$source) ;
-        return str_replace("/home/martin/tableau","/var/www/tableau",$converted) ;
+        return str_replace("/home/martin/tableau","/var/www/html/tableau",$converted) ;
     }
 
     public function addCss($fichierCss,$id=null)
@@ -109,7 +109,7 @@ class Page extends WebService
 <div id="menu" class="row $extraClass">
     <div id="petitpied" class="column grid_16">
         <ul class="menu">
-            <li><a href="index.php" class="menu">Tableau</a>
+            <li><a href="./" class="menu">Tableau</a>
             </li>
             <li><a href="deplacements.php" class="menu">déplacements</a>
             </li>
@@ -127,6 +127,6 @@ class Page extends WebService
     </div>
 </div>
 
-<?
+<?php
     }
 }
