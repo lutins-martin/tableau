@@ -13,6 +13,8 @@ class Moteur extends WebService {
     const ACTION_TABLEAU_CHANGER_LOCAL = 'changerLocal';
 
     const ACTION_TABLEAU_RELECTURE = 'relecture';
+    
+    const ACTION_MESSAGES_RELECTURE = 'relectureMessages' ;
 
     const ACTION_TABLEAU_TOUS_LES_LOCAUX_UNE_EDUCATRICE = 'tousLesLocauxPour';
 
@@ -39,7 +41,6 @@ class Moteur extends WebService {
         
         $action = $this->getRequestParameter ( 'action' );
         
-        $firePHP->log ( $_REQUEST, 'request' );
         switch ($action) {
             case self::ACTION_TABLEAU_CHANGER_LOCAL :
                 try {
@@ -123,6 +124,22 @@ class Moteur extends WebService {
                     print json_encode ( $output );
                 }
                 break;
+            case self::ACTION_MESSAGES_RELECTURE :
+                $output = array() ;
+                foreach($this->lesMessages->getLesMessages(true) as $key => $message) {
+                    $msg['titre'] = $message->getTitre() ;
+                    $msg['corps'] = $message->getMessage() ;
+                    $msg['debut'] = strftime("%F",$message->getDebut()) ;
+                    $msg['fin'] = strftime("%F",$message->getFin()) ;
+                    $output[$key] = $msg ;
+                }
+                FirePHP::getInstance()->log($output,'les messages') ;
+                if($this->getRequestParameter('format')=='asAVariable') {
+                    print "tousLesMessages=" . json_encode($output) ;
+                } else {
+                    print json_encode($output) ;
+                }
+                break ;
             case self::ACTION_TABLEAU_BACKGROUND_IMAGE :
                 $backgroundImageFileName = "css/" . Styles::getInstance ()->getFichierStyleActif ();
                 $size = getimagesize ( $backgroundImageFileName );

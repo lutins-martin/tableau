@@ -26,6 +26,7 @@
     <![endif]-->
 
 <script src="./moteur.php?action=relecture&format=asAVariable"></script>
+<script src="./moteur.php?action=relectureMessages&format=asAVariable"></script>
 </head>
 
 <body>
@@ -48,17 +49,13 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="deplacements.php">déplacements</a></li>
-					<li><a href="locaux.php">Locaux</a></li>
-					<li><a href="groupes.php">Groupes</a></li>
-					<li><a href="educatrices.php">Éducateurs/trices</a></li>
-					<li><a href="messages.php">Messages</a></li>
-					<li><a href="styles.php">Thèmes</a></li>
+					<li><a href="#/locaux">Locaux</a></li>
+					<li><a href="#/groupes">Groupes</a></li>
+					<li><a href="#/educatrices">Éducateurs/trices</a></li>
+					<li><a href="#/messages">Messages</a></li>
+					<li><a href="#/arrieresplans">Arrières-plans</a></li>
 				</ul>
-				<ul class="nav navbar-nav navbar-right hidden-xs">
-					<li><a href="#">Dimanche le 21 décembre 2014 <span
-							class="h3">11:29</span></a></li>
-				</ul>
+				<heure-et-date></heure-et-date>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
@@ -74,37 +71,39 @@
 					<table class="table table-stripped table-condensed">
 						<thead>
 							<tr>
-								<th>Éducatrice (Groupe)</th>
+								<th><span class="glyphicon glyphicon-unchecked"
+									ng-hide="tableau.allSelected"
+									ng-click="tableau.selectAll(true)"></span> <span
+									class="glyphicon glyphicon-check" ng-show="tableau.allSelected"
+									ng-click="tableau.selectAll(false)"></span>Éducatrice (Groupe)</th>
 								<th ng-hide="tableau.localSelected()">Local</th>
 								<th ng-show="tableau.localSelected()"><select
 									ng-model="tableau.selectionLocal"
 									ng-options="local.value as local.name for local in tableau.tousLesLocaux"></select>
-									<button ng-show="tableau.localSelected()"" ng-click="tableau.relecture()">
-									<span class="glyphicon glyphicon-remove"></span>
+									<button ng-show="tableau.localSelected()"
+										ng-click="tableau.relecture()">
+										<span class="glyphicon glyphicon-remove"></span>
 									</button>
-									<button ng-show="tableau.selectionLocal" ng-click="tableau.updateLocaux()">
-									<span class="glyphicon glyphicon-ok"></span>
-									</button>
-									</th>
+									<button ng-show="tableau.selectionLocal"
+										ng-click="tableau.updateLocaux()">
+										<span class="glyphicon glyphicon-ok"></span>
+									</button></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="local in tableau.locaux" ng-click="tableau.toggleSelectedLocal(local)">
-								<td> <span class="glyphicon glyphicon-ok" ng-show="local.selected"></span> {{local.nom}} ({{local.groupe.nom}})</td>
+							<tr ng-repeat="local in tableau.locaux"
+								ng-click="tableau.toggleSelectedLocal(local)">
+								<td><span class="glyphicon glyphicon-unchecked"
+									ng-hide="local.selected"></span> <span
+									class="glyphicon glyphicon-check" ng-show="local.selected"></span>
+									{{local.nom}} ({{local.groupe.nom}})</td>
 								<td>{{local.local.nom}}</td>
 							</tr>
 						</tbody>
 					</table>
 				</form>
 			</div>
-			<div class="col-md-4 col-sm-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Message</h3>
-					</div>
-					<div class="panel-body">bla bla bla</div>
-				</div>
-			</div>
+			<les-messages></les-messages>
 		</div>
 		<!-- /.row -->
 	</div>
@@ -119,6 +118,9 @@
 	<!-- Angularjs Javascript -->
 	<script src="js/angular.js"></script>
 
+	<!-- Common Mark converter -->
+	<script src="js/commonmark/commonmark.js"></script>
+	
 	<!--  Core Application  -->
 	<script src="js/ng-tableau.js"></script>
 </body>
