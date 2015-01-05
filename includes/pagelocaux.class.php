@@ -12,6 +12,7 @@ class PageLocaux extends Page
     public function init()
     {
         parent::init() ;
+        FirePHP::getInstance()->trace(__METHOD__) ;
         $this->lesLocaux = Locaux::getInstance() ;
 
         $this->addJs("ajoute.js") ;
@@ -24,7 +25,12 @@ class PageLocaux extends Page
         $locauxAChanger= $this->getRequestParameter('item') ;
 
         $processed = false ;
-
+        FirePHP::getInstance()->log($locauxAChanger,'locaux a changer') ;
+        if(json_decode($locauxAChanger)) {
+            $locauxAChanger = json_decode($locauxAChanger,true);
+        }
+        FirePHP::getInstance()->log($locauxAChanger,'locaux a changer') ;
+        
         if (is_array($locauxAChanger))
         {
             foreach($locauxAChanger as $localId => $newLocal)
@@ -56,6 +62,12 @@ class PageLocaux extends Page
         }
 
         $locauxAAjouter=$this->getRequestParameter('itemNouveau') ;
+        if(json_decode($locauxAAjouter)) {
+            $decoded = json_decode($locauxAAjouter,true) ;
+            $locauxAAjouter = array($decoded) ;
+        }
+        FirePHP::getInstance()->log($locauxAAjouter,'locaux a ajouter') ;
+        
         if(is_array($locauxAAjouter))
         {
             foreach($locauxAAjouter as $nouveauLocal)
@@ -71,6 +83,11 @@ class PageLocaux extends Page
                     }
                 }
             }
+        }
+        if($this->getRequestParameter('ajax')) {
+            $output['result'] = 'success' ;
+            print json_encode($output) ;
+            exit ;
         }
         if ($processed)
         {

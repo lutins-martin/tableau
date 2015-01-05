@@ -16,15 +16,11 @@ table {
 	cursor: default;
 }
 
-select {
+select, button, input {
 	color: black ;
 	text-shadow: none ;
 }
 
-button {
-	color: black ;
-	text-shadow: none ;
-}
 
 .full {
 	background: url(/tableau/moteur.php?action=getBackgroundImage) no-repeat center center fixed;

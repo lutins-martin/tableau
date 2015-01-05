@@ -1,7 +1,31 @@
 /* angularjs based javascript */
 (function() {
 
-    var app = angular.module('tableau', []);
+    var app = angular.module('tableau', [ 'ngRoute' ]);
+
+    app.config([ '$routeProvider', function($routeProvider) {
+        $routeProvider.when('/tableau', {
+            templateUrl : 'tableau.html',
+            controller : 'TableauController'
+        }).when('/locaux', {
+            templateUrl : 'locaux.html',
+            controller : 'LocauxController'
+        }).when('/groupes', {
+            templateUrl : 'groupes.html',
+            controller : 'GroupesController'
+        }).when('/educatrices', {
+            templateUrl : 'educatrices.html',
+            controller : 'EducatricesController'
+        }).when('/messages', {
+            templateUrl : 'messages.html',
+            controller : 'MessagesController'
+        }).when('/arriereplans', {
+            templateUrl : 'arriere-plans.html',
+            controller : 'ArrierePlansController'
+        }).otherwise({
+            redirectTo : '/tableau'
+        });
+    } ]);
 
     app.controller('TableauController', [ '$http', '$timeout', function($http, $timeout) {
         this.locaux = tousLesLocaux.locaux;
@@ -95,6 +119,91 @@
         });
     } ]);
 
+    app.controller('LocauxController', [ '$http', function($http) {
+        this.locaux;
+        this.selectionLocal = null;
+        this.locauxSelected = [];
+        this.allSelected = false;
+        this.nouveaulocal = "";
+
+        var theLocauxController = this;
+
+        this.relecture = function() {
+            $http.get("moteur.php", {
+                params : {
+                    action : "tousLesLocaux"
+                }
+            }).success(function(data) {
+                theLocauxController.locaux = data.locaux;
+                theLocauxController.tousLesLocaux = [];
+                theLocauxController.locauxSelected = [];
+                theLocauxController.allSelected = false;
+                theLocauxController.nouveaulocal.name = "";
+                delete theLocauxController.selectionLocal;
+            }).error(function(data) {
+            });
+        };
+
+        this.editLocal = function(event, local) {
+            /* clear any other edit field, save them if dirty */
+            for (key in this.locaux) {
+                if (this.locaux[key].editing) {
+                    this.saveLocal(this.locaux[key]);
+                }
+            }
+            local.editing = true;
+        };
+
+        this.stopEditLocal = function(local) {
+            local.editing = false;
+        };
+
+        this.selectAll = function(all) {
+            for (key in this.locaux) {
+                this.locaux[key].selected = all;
+            }
+            this.allSelected = all;
+        };
+
+        this.select = function(local) {
+            if (typeof local.selected == "undefined") {
+                local.selected = true;
+            } else {
+                local.selected = !local.selected;
+            }
+        };
+
+        this.saveLocal = function(local) {
+            local.editing = false;
+            var item = {};
+            item[local.value] = {
+                nom : local.name
+            };
+            $http.get("locaux.php", {
+                params : {
+                    item : item,
+                    ajax : 1
+                }
+            });
+        };
+
+        this.ajouteLocal = function() {
+            var nouveauLocal = [{
+                nom : theLocauxController.nouveaulocal.name
+            }];
+            $http.get("locaux.php", {
+                params : {
+                    itemNouveau : nouveauLocal,
+                    ajax: 1
+                }
+            }).success(function() {
+                theLocauxController.relecture();
+            });
+        };
+
+        this.relecture();
+    } ]);
+
     app.directive('heureEtDate', function($timeout) {
         return {
             restrict : 'E',
@@ -135,32 +244,32 @@
         return {
             restrict : 'E',
             templateUrl : 'lesMessages.html',
-            controller : ['$sce',function($sce) {
+            controller : [ '$sce', function($sce) {
                 this.readInMessages = function() {
                     var reader = new commonmark.DocParser();
-                    var writer = new commonmark.HtmlRenderer();                    
-                    for(key in tousLesMessages) {
+                    var writer = new commonmark.HtmlRenderer();
+                    for (key in tousLesMessages) {
                         var parsed = reader.parse(tousLesMessages[key].corps);
-                        tousLesMessages[key].corpsMarkedUp = writer.render(parsed);  ;
+                        tousLesMessages[key].corpsMarkedUp = writer.render(parsed);
+                        ;
                     }
-                    return tousLesMessages ;
+                    return tousLesMessages;
                 }
-                
-                
+
                 this.trustAsHTML = function(contenu) {
-                    return $sce.trustAsHtml(contenu) ;
+                    return $sce.trustAsHtml(contenu);
                 }
 
-                this.tousLesMessages = this.readInMessages() ;
+                this.tousLesMessages = this.readInMessages();
 
-            }],
+            } ],
             controllerAs : "messages"
         };
     });
-    
-    app.filter('trusted',function($sce){
-        return function (val) {
-            return $sce.trustAsHtml(val) ;
+
+    app.filter('trusted', function($sce) {
+        return function(val) {
+            return $sce.trustAsHtml(val);
         }
-    }) ;
+    });
 })();

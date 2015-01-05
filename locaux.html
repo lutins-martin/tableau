@@ -1,0 +1,53 @@
+<div class="row" ng-controller="LocauxController as locaux">
+	<div class="col-12">
+		<form name="deplacements">
+			<table class="table table-stripped table-condensed">
+				<thead>
+					<tr>
+						<th><span class="glyphicon glyphicon-unchecked"
+							ng-hide="locaux.allSelected" ng-click="locaux.selectAll(true)"></span>
+							<span class="glyphicon glyphicon-check"
+							ng-show="locaux.allSelected" ng-click="locaux.selectAll(false)"></span>
+							Locaux</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="local in locaux.locaux"
+						ng-click="locaux.toggleSelectedLocal(local)">
+						<form name="modifierLocal" ng-show="">
+						<td><span class="glyphicon glyphicon-unchecked"
+							ng-hide="local.selected" ng-click="locaux.select(local)"></span>
+							<span class="glyphicon glyphicon-check" ng-show="local.selected"
+							ng-click="locaux.select(local)"></span> <span
+							ng-hide="local.editing" ng-click="locaux.editLocal($event,local)">{{local.name}}</span>
+							<input ng-blur="locaux.saveLocal(local)" ng-show="local.editing"
+							type="text" ng-model="local.name"></input>
+							<button ng-click="locaux.saveLocal(local)"
+								ng-show="local.editing">
+								<span class="glyphicon glyphicon-ok"></span>
+							</button>
+							<button ng-show="local.editing"
+								ng-click="locaux.stopEditLocal(local)">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button></td>
+						</form>
+					</tr>
+					<tr>
+						<form name="ajouterLocal" ng-show="">
+							<td><input type="text" ng-model="locaux.nouveaulocal.name"></input>
+								<button ng-click="locaux.ajouteLocal()"
+									ng-show="locaux.nouveaulocal.name.length">
+									<span class="glyphicon glyphicon-ok"></span>
+								</button>
+								<button ng-click="locaux.nouveaulocal=''"
+									ng-show="locaux.nouveaulocal.name.length">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button></td>
+						</form>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+<!-- /.row -->
