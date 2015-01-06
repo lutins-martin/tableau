@@ -8,7 +8,7 @@
 							ng-hide="locaux.allSelected" ng-click="locaux.selectAll(true)"></span>
 							<span class="glyphicon glyphicon-check"
 							ng-show="locaux.allSelected" ng-click="locaux.selectAll(false)"></span>
-							Locaux</th>
+							Locaux <button ng-click="locaux.effaceLocaux()" ng-show="locaux.locauxSelected.length">Effacer les locaux</button></th>
 					</tr>
 				</thead>
 				<tbody>

@@ -13,12 +13,14 @@ class Moteur extends WebService {
     const ACTION_TABLEAU_CHANGER_LOCAL = 'changerLocal';
 
     const ACTION_TABLEAU_RELECTURE = 'relecture';
-    
-    const ACTION_MESSAGES_RELECTURE = 'relectureMessages' ;
+
+    const ACTION_MESSAGES_RELECTURE = 'relectureMessages';
 
     const ACTION_TABLEAU_TOUS_LES_LOCAUX_UNE_EDUCATRICE = 'tousLesLocauxPour';
 
     const ACTION_TABLEAU_TOUS_LES_LOCAUX = 'tousLesLocaux';
+
+    const ACTION_TABLEAU_TOUS_LES_GROUPES = 'tousLesGroupes';
 
     const ACTION_TABLEAU_BACKGROUND_IMAGE = "getBackgroundImage";
 
@@ -108,12 +110,12 @@ class Moteur extends WebService {
                     if ($educatriceId !== null) {
                         $output ['educatriceId'] = $educatriceId;
                         $output ['selected'] = $educatrice->getLocal ()->getId ();
-                    } 
+                    }
                     $lesLocaux = $this->lesLocaux->getLesLocaux ();
                     foreach ( $lesLocaux as $local ) {
                         $localSimple = array ();
                         $localSimple ['name'] = $local->getNom ();
-                        $localSimple ['value'] = intval($local->getId ());
+                        $localSimple ['value'] = intval ( $local->getId () );
                         if (isset ( $output ['selected'] ) && ($local->getId () == $output ['selected'])) $localSimple ['selected'] = 'selected';
                         $output ['locaux'] [] = $localSimple;
                     }
@@ -124,22 +126,38 @@ class Moteur extends WebService {
                     print json_encode ( $output );
                 }
                 break;
-            case self::ACTION_MESSAGES_RELECTURE :
-                $output = array() ;
-                foreach($this->lesMessages->getLesMessages(true) as $key => $message) {
-                    $msg['titre'] = $message->getTitre() ;
-                    $msg['corps'] = $message->getMessage() ;
-                    $msg['debut'] = strftime("%F",$message->getDebut()) ;
-                    $msg['fin'] = strftime("%F",$message->getFin()) ;
-                    $output[$key] = $msg ;
-                }
-                FirePHP::getInstance()->log($output,'les messages') ;
-                if($this->getRequestParameter('format')=='asAVariable') {
-                    print "tousLesMessages=" . json_encode($output) ;
-                } else {
+            case self::ACTION_TABLEAU_TOUS_LES_GROUPES :
+                try{
+                    $output['groupes'] = array() ;
+                    foreach(Groupes::getInstance()->getLesGroupes() as $groupe) {
+                        $groupeSimple = array() ;
+                        $groupeSimple['nom'] = $groupe->getNom();
+                        $groupeSimple['valeur'] = $groupe->getId();
+                        $output['groupes'][] = $groupeSimple ;
+                    }
+                    print json_encode($output) ;
+                } catch (Exception $e) {
+                    $output ['resultat'] = false ;
+                    $output['erreur'] = $e->getMessage() ;
                     print json_encode($output) ;
                 }
-                break ;
+                break;
+            case self::ACTION_MESSAGES_RELECTURE :
+                $output = array ();
+                foreach ( $this->lesMessages->getLesMessages ( true ) as $key => $message ) {
+                    $msg ['titre'] = $message->getTitre ();
+                    $msg ['corps'] = $message->getMessage ();
+                    $msg ['debut'] = strftime ( "%F", $message->getDebut () );
+                    $msg ['fin'] = strftime ( "%F", $message->getFin () );
+                    $output [$key] = $msg;
+                }
+                FirePHP::getInstance ()->log ( $output, 'les messages' );
+                if ($this->getRequestParameter ( 'format' ) == 'asAVariable') {
+                    print "tousLesMessages=" . json_encode ( $output );
+                } else {
+                    print json_encode ( $output );
+                }
+                break;
             case self::ACTION_TABLEAU_BACKGROUND_IMAGE :
                 $backgroundImageFileName = "css/" . Styles::getInstance ()->getFichierStyleActif ();
                 $size = getimagesize ( $backgroundImageFileName );
