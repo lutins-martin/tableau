@@ -20,6 +20,8 @@ class Moteur extends WebService {
 
     const ACTION_TABLEAU_TOUS_LES_LOCAUX = 'tousLesLocaux';
 
+    const ACTION_TABLEAU_TOUTES_LES_EDUCATRICES_AVEC_GROUPES = 'toutesLesEducatricesAvecGroupes';
+
     const ACTION_TABLEAU_TOUS_LES_GROUPES = 'tousLesGroupes';
 
     const ACTION_TABLEAU_BACKGROUND_IMAGE = "getBackgroundImage";
@@ -126,20 +128,39 @@ class Moteur extends WebService {
                     print json_encode ( $output );
                 }
                 break;
-            case self::ACTION_TABLEAU_TOUS_LES_GROUPES :
-                try{
-                    $output['groupes'] = array() ;
-                    foreach(Groupes::getInstance()->getLesGroupes() as $groupe) {
-                        $groupeSimple = array() ;
-                        $groupeSimple['nom'] = $groupe->getNom();
-                        $groupeSimple['valeur'] = $groupe->getId();
-                        $output['groupes'][] = $groupeSimple ;
+            case self::ACTION_TABLEAU_TOUTES_LES_EDUCATRICES_AVEC_GROUPES :
+                try {
+                    $output ['educatrices'] = array ();
+                    foreach ( $this->lesEducatrices->getLesEducatrices () as $educatrice ) {
+                        $educatriceSimple ['nom'] = $educatrice->getNom ();
+                        $educatriceSimple ['valeur'] = $educatrice->getId ();
+                        $educatriceSimple ['groupe']['nom'] = $educatrice->getGroupe()->getNom() ;
+                        $educatriceSimple ['groupe']['valeur'] = $educatrice->getGroupe()->getId() ;
+                        
+                        $output['educatrices'][] = $educatriceSimple ;
                     }
                     print json_encode($output) ;
-                } catch (Exception $e) {
-                    $output ['resultat'] = false ;
-                    $output['erreur'] = $e->getMessage() ;
-                    print json_encode($output) ;
+                } catch ( Exception $e ) {
+                    $output ['resultat'] = false;
+                    $output ['error'] = $e->getMessage ();
+                    header ( $_SERVER ['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500 );
+                    print json_encode ( $output );
+                }
+                break;
+            case self::ACTION_TABLEAU_TOUS_LES_GROUPES :
+                try {
+                    $output ['groupes'] = array ();
+                    foreach ( Groupes::getInstance ()->getLesGroupes () as $groupe ) {
+                        $groupeSimple = array ();
+                        $groupeSimple ['nom'] = $groupe->getNom ();
+                        $groupeSimple ['valeur'] = $groupe->getId ();
+                        $output ['groupes'] [] = $groupeSimple;
+                    }
+                    print json_encode ( $output );
+                } catch ( Exception $e ) {
+                    $output ['resultat'] = false;
+                    $output ['erreur'] = $e->getMessage ();
+                    print json_encode ( $output );
                 }
                 break;
             case self::ACTION_MESSAGES_RELECTURE :

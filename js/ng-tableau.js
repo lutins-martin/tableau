@@ -1,29 +1,35 @@
 /* angularjs based javascript */
 (function() {
 
-    var app = angular.module('tableau', [ 'ngRoute', 'tableau-locaux', 'tableau-groupes', 'tableau-messages' ]);
+    var app = angular.module('tableau', [ 'ngRoute', 'tableau-locaux', 'tableau-groupes', 'tableau-messages', 'tableau-educatrices']);
 
     app.config([ '$routeProvider', function($routeProvider) {
-        $routeProvider.when('/tableau', {
+        $routeProvider.when('/tableau/', {
             templateUrl : 'tableau.html',
-            controller : 'TableauController'
-        }).when('/locaux', {
+            controller : 'TableauController',
+            controllerAs : 'tableau'
+        }).when('/locaux/', {
             templateUrl : 'locaux.html',
-            controller : 'LocauxController'
-        }).when('/groupes', {
+            controller : 'LocauxController',
+            controllerAs : 'locaux'
+        }).when('/groupes/', {
             templateUrl : 'groupes.html',
-            controller : 'GroupesController'
+            controller : 'GroupesController',
+            controllerAs : 'groupes'
         }).when('/educatrices', {
             templateUrl : 'educatrices.html',
-            controller : 'EducatricesController'
-        }).when('/messages', {
+            controller : 'EducatricesController',
+            controllerAs : 'educatrices'
+        }).when('/messages/', {
             templateUrl : 'messages.html',
-            controller : 'MessagesController'
-        }).when('/arriereplans', {
+            controller : 'MessagesController',
+            controllerAs : 'messages'
+        }).when('/arriereplans/', {
             templateUrl : 'arriere-plans.html',
-            controller : 'ArrierePlansController'
+            controller : 'ArrierePlansController',
+            controllerAs : 'arriereplans'
         }).otherwise({
-            redirectTo : '/tableau'
+            redirectTo : '/tableau/'
         });
     } ]);
 

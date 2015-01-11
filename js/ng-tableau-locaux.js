@@ -1,9 +1,8 @@
-(function(){
-    var app = angular.module('tableau-locaux',[]) ;
-    
+(function() {
+    var app = angular.module('tableau-locaux', []);
+
     app.controller('LocauxController', [ '$http', function($http) {
         this.locaux;
-        this.selectionLocal = null;
         this.locauxSelected = [];
         this.allSelected = false;
         this.nouveaulocal = "";
@@ -21,7 +20,6 @@
                 theLocauxController.locauxSelected = [];
                 theLocauxController.allSelected = false;
                 theLocauxController.nouveaulocal.name = "";
-                delete theLocauxController.selectionLocal;
             }).error(function(data) {
             });
         };
@@ -41,23 +39,23 @@
         };
 
         this.selectAll = function(all) {
-            this.locauxSelected = [] ;
+            this.locauxSelected = [];
             for (key in this.locaux) {
                 this.locaux[key].selected = all;
-                if(all) {
-                    this.locauxSelected.push(this.locaux[key].value) ;
+                if (all) {
+                    this.locauxSelected.push(this.locaux[key].value);
                 }
             }
             this.allSelected = all;
         };
 
-        this.select = function(local) {            
+        this.select = function(local) {
             if (typeof local.selected == "undefined") {
                 local.selected = true;
             } else {
                 local.selected = !local.selected;
             }
-            if(local.selected) {
+            if (local.selected) {
                 this.locauxSelected.push(local.value);
             } else {
                 var index = this.locauxSelected.indexOf(local.value);
@@ -120,4 +118,4 @@
         this.relecture();
     } ]);
 
-})() ;
+})();

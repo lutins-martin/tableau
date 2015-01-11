@@ -24,17 +24,26 @@ class PageEducatrices extends Page {
 
     public function recevoirLesDonnees() {
         $firePHP = FirePHP::getInstance ();
-        
+        $output = array() ;
         $educatricesAChanger = $this->getRequestParameter ( 'item' );
+        if(json_decode($educatricesAChanger)) {
+            $educatricesAChanger = json_decode($educatricesAChanger,true) ;
+            $output['resultat'] = 'failure' ;
+        }
         
         $processed = false;
         
         if (is_array ( $educatricesAChanger )) {
             
             foreach ( $educatricesAChanger as $educatriceId => $neweducatrice ) {
+                
                 if (isset ( $neweducatrice ['efface'] )) {
                     $educatrice = $this->lesEducatrices->getUneEducatrice ( $educatriceId );
-                    if ($educatrice->isLoaded ()) $educatrice->delete ();
+                    $output['resultat'] = 'deleting' ;                    
+                    if ($educatrice->isLoaded ()) {
+                        $output['resultat'] .= " " . $educatrice->getNom() ;
+                        $educatrice->delete ();                                                
+                    }
                     
                     $processed = true;
                     unset ( $educatricesAChanger [$educatriceId] );
@@ -43,7 +52,6 @@ class PageEducatrices extends Page {
                 
                 $educatrice = $this->lesEducatrices->getUneEducatrice ( $educatriceId );
                 if (isset ( $neweducatrice ['nom'] )) {
-                    $firePHP->log ( $neweducatrice, 'neweducatrice' );
                     if (! is_null ( $neweducatrice ['nom'] ) && trim ( $neweducatrice ['nom'] ) != "") {
                         if ($neweducatrice ['nom'] != $educatrice->getNom ()) {
                             $educatrice->setNom ( $neweducatrice ['nom'] );
@@ -54,7 +62,9 @@ class PageEducatrices extends Page {
                     }
                 }
                 if (isset ( $neweducatrice ['groupe'] )) {
+                    $output['resultat'] = 'processing' ;
                     if ($neweducatrice ['groupe'] != $educatrice->getGroupe ()->getId ()) {
+                        $output['resultat'] = 'groupe changé' ;
                         $educatrice->setGroupe ( $this->lesGroupes->getUnGroupe ( $neweducatrice ['groupe'] ) );
                         $educatrice->save ();
                         $processed = true;
@@ -75,6 +85,10 @@ class PageEducatrices extends Page {
                     }
                 }
             }
+        }
+        if($this->getRequestParameter('ajax')) {
+            print json_encode($output) ;
+            exit() ;
         }
         if ($processed) {
             header ( "Location: educatrices.php" );

@@ -1,14 +1,13 @@
 (function() {
-    var app = angular.module('tableau-groupes',[]) ;
-    
-    
+    var app = angular.module('tableau-groupes', []);
+
     app.controller('GroupesController', [ '$http', function($http) {
         this.groupes;
         this.groupesSelected = [];
         this.allSelected = false;
         this.nouveaugroupe = "";
 
-        var theGroupesController= this;
+        var theGroupesController = this;
 
         this.relecture = function() {
             $http.get("moteur.php", {
@@ -40,23 +39,23 @@
         };
 
         this.selectAll = function(all) {
-            this.groupesSelected = [] ;
+            this.groupesSelected = [];
             for (key in this.groupes) {
                 this.groupes[key].selected = all;
-                if(all) {
-                    this.groupesSelected.push(this.groupes[key].value) ;
+                if (all) {
+                    this.groupesSelected.push(this.groupes[key].value);
                 }
             }
             this.allSelected = all;
         };
 
-        this.select = function(groupe) {            
+        this.select = function(groupe) {
             if (typeof groupe.selected == "undefined") {
                 groupe.selected = true;
             } else {
                 groupe.selected = !groupe.selected;
             }
-            if(groupe.selected) {
+            if (groupe.selected) {
                 this.groupesSelected.push(groupe.value);
             } else {
                 var index = this.groupesSelected.indexOf(groupe.value);
@@ -119,4 +118,4 @@
         this.relecture();
     } ]);
 
-})() ;
+})();
