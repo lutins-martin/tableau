@@ -53,18 +53,18 @@
 					<tr>
 						<form name="ajouterEducatrice" ng-show="">
 						<td><input type="text"
-							ng-model="educatrices.nouvelleEducatrice.nom"></input>
+							ng-model="educatrices.nouvelleEducatrice.nom"
+							ng-change="educatrices.getTousLesGroupesSiVides()"></input></td>
+						<td>
 							<button ng-click="educatrices.ajouteEducatrice()"
 								ng-show="educatrices.nouvelleEducatrice.nom.length">
 								<span class="glyphicon glyphicon-ok"></span>
 							</button>
-							<button ng-click="educatrices.nouvelleEducatrice=''"
+							<button ng-click="educatrices.nouvelleEducatrice=null"
 								ng-show="educatrices.nouvelleEducatrice.nom.length">
 								<span class="glyphicon glyphicon-remove"></span>
-							</button></td>
-						<td><select ng-show=""
-							ng-options="groupe.valeur as groupe.nom for groupe in educatrices.tousLesGroupes">
-						</select></td>
+							</button>
+						</td>
 						</form>
 					</tr>
 				</tbody>

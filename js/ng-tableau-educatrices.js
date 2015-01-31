@@ -17,6 +17,8 @@
                 }
             }).success(function(data) {
                 theEducatricesController.lesEducatrices = data.educatrices;
+                theEducatricesController.selectedEducatrices = [];
+                theEducatricesController.nouvelleEducatrice = {} ;
             }).error(function() {
 
             });
@@ -90,11 +92,17 @@
             });
         }
 
+        this.getTousLesGroupesSiVides = function() {
+            if (this.tousLesGroupes.length == 0) {
+                this.getTousLesGroupes();
+            }
+        }
+
         this.effaceEducatrices = function() {
             var message = "Effacer ces éducatrices:";
             for (index in this.lesEducatrices) {
                 if (this.lesEducatrices[index].selected) {
-                    message = message + " " + this.lesEducatrices.nom;
+                    message = message + " " + this.lesEducatrices[index].nom;
                 }
             }
             if (confirm(message)) {
@@ -113,8 +121,20 @@
                     theEducatricesController.relecture();
                 });
             } else {
-                this.relecture() ;
+                this.relecture();
             }
+        }
+
+        this.ajouteEducatrice = function() {
+            var itemNouveau = this.nouvelleEducatrice;
+            $http.get("educatrices.php", {
+                params : {
+                    itemNouveau : itemNouveau,
+                    ajax : 1
+                }
+            }).success(function(data) {
+                theEducatricesController.relecture();
+            })
         }
 
         this.relecture();

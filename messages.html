@@ -1,0 +1,105 @@
+<div class="row">
+	<div class="col-md-4 col-sm-12 col-lg-6">
+		<form>
+			<table class="table table-stripped table-condensed">
+				<thead>
+					<tr>
+						<th><span class="glyphicon glyphicon-unchecked"
+							ng-hide="messages.allSelected"
+							ng-click="messages.selectAll(true)"></span> <span
+							class="glyphicon glyphicon-check" ng-show="messages.allSelected"
+							ng-click="messages.selectAll(false)"></span></th>
+						<th>Titre
+							<button ng-click="messages.effaceMessages()"
+								ng-show="messages.messagesSelected.length">Effacer ces
+								messages</button>
+						</th>
+						<th>Début/Fin</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="message in messages.lesMessages"
+						ng-class="{ success:messages.edited.id===message.id }">
+						<td><span class="glyphicon glyphicon-unchecked"
+							ng-hide="message.selected" ng-click="messages.select(message)"></span>
+							<span class="glyphicon glyphicon-check"
+							ng-show="message.selected" ng-click="messages.select(message)"></span></td>
+						<td ng-click="messages.edit(message)">{{message.titre}}<br>
+							<span ng-bind-html="message.corpsMarkedUp | trusted "></span>
+						</td>
+						<td ng-click="messages.edit(message)">{{message.debut | date
+							:'yyyy-MM-dd'}}<br> {{message.fin | date :'yyyy-MM-dd'}}
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<button ng-click="messages.edit(messages.nouveauMessage)">Nouveau
+								message</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<div class="col-sm-12 col-md-4 col-lg-6" ng-show="messages.edited">
+		<form name="messageForm">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td><label for="titre">Titre:</label> <input id="titre"
+							ng-model="messages.edited.titre" size="40" ng-required="true"></td>
+					<tr>
+						<td><label for="debut">Début:</label>
+							<p class="input-group">
+								<input id="debut" type="text" class="form-control"
+									datepicker-popup="{{messages.datePickerFormat}}"
+									ng-model="messages.edited.debut"
+									is-open="messages.edited.startDatePickerOpened"
+									datepicker-options="messages.datePickerOptions"
+									date-disabled="disabled(date, mode)" ng-required="true"
+									current-text="Aujourd'hui" clear-text="effacer"
+									close-text="Fermer" size="15" /> <span class="input-group-btn">
+									<button type="button" class="btn btn-default"
+										ng-click="messages.openDatePicker($event,'start')">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</p></td>
+					</tr>
+					<tr>
+						<td><label for="fin">Fin:&nbsp;&nbsp;&nbsp;</label>
+							<p class="input-group">
+								<input class="form-control"
+									datepicker-popup="{{messages.datePickerFormat}}"
+									is-open="messages.edited.endDatePickerOpened"
+									datepicker-options="messages.datePickerOptions"
+									date-disabled="disabled(date, mode)" ng-required="true"
+									current-text="Aujourd'hui" clear-text="effacer"
+									close-text="Fermer" id="fin" ng-model="messages.edited.fin">
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default"
+										ng-click="messages.openDatePicker($event,'end')">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</p></td>
+					</tr>
+					<tr>
+						<td><label for="corps">Message:</label><br> <textarea
+								id="message" ng-model="messages.edited.corps" cols="50"
+								rows="10"></textarea></td>
+					</tr>
+					<tr>
+						<td><span title="sauver" ng-show="messages.edited"
+							ng-click="messageForm.$valid && messages.updateMessage()"
+							class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span
+							title="annuler" ng-show="messages.edited"
+							ng-click="messages.clearMessage()"
+							class="glyphicon glyphicon-remove"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+<!-- /.row -->

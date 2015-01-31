@@ -15,6 +15,10 @@ class Moteur extends WebService {
     const ACTION_TABLEAU_RELECTURE = 'relecture';
 
     const ACTION_MESSAGES_RELECTURE = 'relectureMessages';
+    
+    const ACTION_SAUVE_MESSAGE = 'sauveMessage' ;
+    
+    const ACTION_EFFACE_MESSAGES = 'effaceMessages' ;
 
     const ACTION_TABLEAU_TOUS_LES_LOCAUX_UNE_EDUCATRICE = 'tousLesLocauxPour';
 
@@ -165,7 +169,9 @@ class Moteur extends WebService {
                 break;
             case self::ACTION_MESSAGES_RELECTURE :
                 $output = array ();
-                foreach ( $this->lesMessages->getLesMessages ( true ) as $key => $message ) {
+                $tousLesMessages = $this->getRequestParameter('tous',true) ;              
+                foreach ( $this->lesMessages->getLesMessages ( $tousLesMessages ) as $key => $message ) {
+                    $msg['id'] = $message->getId() ;
                     $msg ['titre'] = $message->getTitre ();
                     $msg ['corps'] = $message->getMessage ();
                     $msg ['debut'] = strftime ( "%F", $message->getDebut () );
@@ -179,6 +185,40 @@ class Moteur extends WebService {
                     print json_encode ( $output );
                 }
                 break;
+            case self::ACTION_SAUVE_MESSAGE :
+                $output = array() ;
+                $editedMessage = $this->getRequestParameter('editedMessage') ;
+                if($editedMessage) {
+                    if(isset($editedMessage['id'])) {
+                        $message = $this->lesMessages->getUnMessage($editedMessage['id']) ;
+                    } else {
+                        $message = new Message() ;
+                    }
+                    FirePHP::getInstance(true)->setEnabled(true) ;
+                    FirePHP::getInstance()->log($message,'Message avant') ;
+                    $message->setDebut($editedMessage['debut']) ;
+                    $message->setFin($editedMessage['fin']) ;
+                    $message->setTitre($editedMessage['titre']) ;
+                    $message->setMessage($editedMessage['corps']) ;
+                    FirePHP::getInstance()->log($message,"message après") ;
+                    $message->save() ;
+                    
+                    $output['success'] = true ;
+                    print json_encode($output) ;
+                }
+                break ;
+            case self::ACTION_EFFACE_MESSAGES :
+                $output = array() ;
+                $messagesToDelete = $this->getRequestParameter('messageAEffacer') ;
+                foreach($messagesToDelete as $messageId) {
+                    $message = $this->lesMessages->getUnMessage($messageId) ;
+                    if($message->isLoaded()) {
+                        $message->delete() ;
+                    }
+                }
+                $output['success'] = true ;
+                print json_encode($output) ;
+                break ;
             case self::ACTION_TABLEAU_BACKGROUND_IMAGE :
                 $backgroundImageFileName = "css/" . Styles::getInstance ()->getFichierStyleActif ();
                 $size = getimagesize ( $backgroundImageFileName );
@@ -194,4 +234,4 @@ class Moteur extends WebService {
                 break;
         }
     }
-}
+} 

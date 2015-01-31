@@ -24,11 +24,11 @@ class PageEducatrices extends Page {
 
     public function recevoirLesDonnees() {
         $firePHP = FirePHP::getInstance ();
-        $output = array() ;
+        $output = array ();
         $educatricesAChanger = $this->getRequestParameter ( 'item' );
-        if(json_decode($educatricesAChanger)) {
-            $educatricesAChanger = json_decode($educatricesAChanger,true) ;
-            $output['resultat'] = 'failure' ;
+        if (json_decode ( $educatricesAChanger )) {
+            $educatricesAChanger = json_decode ( $educatricesAChanger, true );
+            $output ['resultat'] = 'failure';
         }
         
         $processed = false;
@@ -39,10 +39,10 @@ class PageEducatrices extends Page {
                 
                 if (isset ( $neweducatrice ['efface'] )) {
                     $educatrice = $this->lesEducatrices->getUneEducatrice ( $educatriceId );
-                    $output['resultat'] = 'deleting' ;                    
+                    $output ['resultat'] = 'deleting';
                     if ($educatrice->isLoaded ()) {
-                        $output['resultat'] .= " " . $educatrice->getNom() ;
-                        $educatrice->delete ();                                                
+                        $output ['resultat'] .= " " . $educatrice->getNom ();
+                        $educatrice->delete ();
                     }
                     
                     $processed = true;
@@ -62,9 +62,9 @@ class PageEducatrices extends Page {
                     }
                 }
                 if (isset ( $neweducatrice ['groupe'] )) {
-                    $output['resultat'] = 'processing' ;
+                    $output ['resultat'] = 'processing';
                     if ($neweducatrice ['groupe'] != $educatrice->getGroupe ()->getId ()) {
-                        $output['resultat'] = 'groupe changé' ;
+                        $output ['resultat'] = 'groupe changé';
                         $educatrice->setGroupe ( $this->lesGroupes->getUnGroupe ( $neweducatrice ['groupe'] ) );
                         $educatrice->save ();
                         $processed = true;
@@ -74,21 +74,30 @@ class PageEducatrices extends Page {
         }
         
         $educatricesAAjouter = (isset ( $_REQUEST ['itemNouveau'] ) ? $_REQUEST ['itemNouveau'] : null);
+        if (json_decode ( $educatricesAAjouter )) {
+            $decoded = json_decode ( $educatricesAAjouter, true );
+            $educatricesAAjouter = array ();
+            $educatricesAAjouter [] = $decoded;
+            $output ['resultat'] = "failure";
+        }
         if (is_array ( $educatricesAAjouter )) {
             foreach ( $educatricesAAjouter as $nouvelleEducatrice ) {
                 if (isset ( $nouvelleEducatrice ['nom'] )) {
+                    $output ['resultat'] = 'processing';
                     if (! is_null ( $nouvelleEducatrice ['nom'] ) && trim ( $nouvelleEducatrice ['nom'] ) != "") {
-                        $local = new Educatrice ();
-                        $local->setNom ( $nouvelleEducatrice ['nom'] );
-                        $local->save ();
+                        $educatrice = new Educatrice ();
+                        $educatrice->setNom ( $nouvelleEducatrice ['nom'] );
                         $processed = true;
+                        $educatrice->save ();
+                        
+                        $output ['resultat'] = 'success';
                     }
                 }
             }
         }
-        if($this->getRequestParameter('ajax')) {
-            print json_encode($output) ;
-            exit() ;
+        if ($this->getRequestParameter ( 'ajax' )) {
+            print json_encode ( $output );
+            exit ();
         }
         if ($processed) {
             header ( "Location: educatrices.php" );
@@ -139,8 +148,9 @@ class PageEducatrices extends Page {
 		<div id="educatriceGroupe<?php echo $educatrice->getId()?>"
 			class="column grid_4 nomItem">
 <?php
-                $selectDeGroupe = new SelectNode ( array (
-                        "name" => "item[{$educatrice->getId()}][groupe]" ) );
+                $selectDeGroupe = new SelectNode ( 
+                        array (
+                                "name" => "item[{$educatrice->getId()}][groupe]" ) );
                 $selectDeGroupe->addOption ( "", 0 );
                 if (is_array ( $tousLesGroupes )) {
                     foreach ( $tousLesGroupes as $groupe ) {

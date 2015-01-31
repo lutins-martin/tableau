@@ -46,7 +46,7 @@ abstract class Element
         }
         else
         {
-            $this->nom="&nbsp;" ;
+            $this->nom="---" ;
             $this->id=0 ;
         }
     }

@@ -60,6 +60,7 @@ class Messages
     {
         if(count(self::$lesMessages)==0)
         {
+            FirePHP::getInstance()->log($aujourdhui,'aujourd\'hui') ;
             $tousLesMessageStm = self::$db->query("select ROWID,TITRE,MESSAGE,DEBUT,FIN,MODIFIELE from MESSAGES order by DEBUT asc") ;
             $lesMessagesBruts = $tousLesMessageStm->fetchAll(PDO::FETCH_ASSOC) ;
             foreach($lesMessagesBruts as $unMessageRec)
