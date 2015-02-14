@@ -29,8 +29,8 @@ class Moteur extends WebService {
     const ACTION_TABLEAU_TOUS_LES_GROUPES = 'tousLesGroupes';
 
     const ACTION_TABLEAU_BACKGROUND_IMAGE = "getBackgroundImage";
-    
-    const ACTION_GET_BACKGROUND_FILENAME = "getBackgroundImageFileName" ;
+
+    const ACTION_GET_BACKGROUND_FILENAME = "getBackgroundImageFileName";
 
     const ACTION_TOUS_LES_BACKGROUNDS = "tousLesBackgrounds";
 
@@ -239,10 +239,11 @@ class Moteur extends WebService {
                 readfile ( $backgroundImageFileName );
                 break;
             case self::ACTION_GET_BACKGROUND_FILENAME :
-                $output = array() ;
-                $output['file'] = $backgroundImageFileName = "css/" . Styles::getInstance ()->getFichierStyleActif ();
-                print json_encode($output) ;
-                break ;
+                $output = array ();
+                $output ['file'] = $backgroundImageFileName = "css/" . str_replace ( " ", "%20", 
+                        Styles::getInstance ()->getFichierStyleActif () );
+                print json_encode ( $output );
+                break;
             case self::ACTION_TOUS_LES_BACKGROUNDS :
                 FirePHP::getInstance ( true )->setEnabled ( true );
                 FirePHP::getInstance ()->trace ( __METHOD__ );
@@ -316,24 +317,24 @@ class Moteur extends WebService {
                 $target_file = basename ( $_FILES ["backgroundFile"] ["name"] );
                 $uploadOk = 1;
                 // Check if image file is a actual image or fake image
-
+                
                 $check = getimagesize ( $_FILES ["backgroundFile"] ["tmp_name"] );
-                if ($check !== false) {                    
+                if ($check !== false) {
                     $uploadOk = 1;
                 } else {
-                    throw new Exception("Le fichier n'est pas une image");
+                    throw new Exception ( "Le fichier n'est pas une image" );
                 }
-                if($uploadOk) {
-                    $convertCommand = "/usr/bin/convert -resize 1366 '" . $_FILES['backgroundFile']['tmp_name'] . "' '$backgroundPath" . basename (
-                            $_FILES['backgroundFile'] ['name'] ) . "' 2>&1";
-                    system($convertCommand) ;
-                    $convertThumbCommand = "/usr/bin/convert -resize 150 '" . $_FILES['backgroundFile']['tmp_name'] . "' '$backgroundThumbnailPath" . basename (
-                            $_FILES['backgroundFile'] ['name'] ) . "' 2>&1";
-                    system($convertCommand) ;
+                if ($uploadOk) {
+                    $convertCommand = "/usr/bin/convert -resize 1366 '" . $_FILES ['backgroundFile'] ['tmp_name'] . "' '$backgroundPath" . basename ( 
+                            $_FILES ['backgroundFile'] ['name'] ) . "' 2>&1";
+                    system ( $convertCommand );
+                    $convertThumbCommand = "/usr/bin/convert -resize 150 '" . $_FILES ['backgroundFile'] ['tmp_name'] . "' '$backgroundThumbnailPath" . basename ( 
+                            $_FILES ['backgroundFile'] ['name'] ) . "' 2>&1";
+                    system ( $convertCommand );
                     $returnValue = null;
                 }
-                header("location: $subdir/#/arriereplans/") ;
-                exit ;                
+                header ( "location: $subdir/#/arriereplans/" );
+                exit ();
                 
                 break;
             default :
