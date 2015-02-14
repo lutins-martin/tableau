@@ -40,3 +40,8 @@ span.ellipsis {
 	-o-background-size: cover;
 	background-size: cover;
 }
+
+input[type="file"] {
+    background: white;
+    border : black thin solid;
+}

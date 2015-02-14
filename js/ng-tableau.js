@@ -1,7 +1,8 @@
 /* angularjs based javascript */
 (function() {
 
-    var app = angular.module('tableau', [ 'ngRoute', 'tableau-locaux', 'tableau-groupes', 'tableau-messages', 'tableau-educatrices']);
+    var app = angular.module('tableau', [ 'ngRoute', 'tableau-locaux', 'tableau-groupes', 'tableau-messages',
+            'tableau-educatrices', 'tableau-backgrounds' ]);
 
     app.config([ '$routeProvider', function($routeProvider) {
         $routeProvider.when('/tableau/', {
@@ -25,9 +26,9 @@
             controller : 'MessagesController',
             controllerAs : 'messages'
         }).when('/arriereplans/', {
-            templateUrl : 'arriere-plans.html',
-            controller : 'ArrierePlansController',
-            controllerAs : 'arriereplans'
+            templateUrl : 'arriereplans.html',
+            controller : 'BackgroundController',
+            controllerAs : 'backgroundCtrl'
         }).otherwise({
             redirectTo : '/tableau/'
         });
@@ -38,6 +39,7 @@
         this.selectionLocal = null;
         this.locauxSelected = [];
         this.allSelected = false;
+        this.dernierChangement = 0 ;
 
         this.tousLesLocaux;
 
@@ -48,14 +50,31 @@
                     action : "relecture"
                 }
             }).success(function(data) {
-                theTableauController.locaux = data.locaux;
-                theTableauController.tousLesLocaux = [];
-                theTableauController.locauxSelected = [];
-                theTableauController.allSelected = false;
-                delete theTableauController.selectionLocal;
+                if (theTableauController.locauxSelected.length == 0) {
+                    theTableauController.locaux = data.locaux;
+                    theTableauController.tousLesLocaux = [];
+                    theTableauController.locauxSelected = [];
+                    theTableauController.allSelected = false;
+                    delete theTableauController.selectionLocal;
+                    if (theTableauController.dernierChangement < data.dernierChangement) {
+                        theTableauController.dernierChangement = data.dernierChangement;
+                        theTableauController.updateBackground();
+
+                    }
+                }
             }).error(function(data) {
             });
         };
+
+        this.updateBackground = function() {
+            $http.get("moteur.php", {
+                params : {
+                    action : "getBackgroundImageFileName"
+                }
+            }).success(function(data) {
+                $('html').css('backgroundImage', 'url(' + data.file + ')');
+            });
+        }
 
         this.updateLocaux = function() {
             var local = {};
@@ -66,6 +85,7 @@
                 action : "changerLocal",
                 local : local
             }).success(function() {
+                theTableauController.locauxSelected = [];
                 theTableauController.relecture();
             });
         };
@@ -112,17 +132,17 @@
         };
 
         this.miseAJourPeriodique = function() {
-            if (theTableauController.locauxSelected.count() == 0) {
+            if (theTableauController.locauxSelected.length == 0) {
                 theTableauController.relecture();
             }
             $timeout(function() {
-                theTableauController.miseAJourPeriodique, 300
-            })
+                theTableauController.miseAJourPeriodique();
+            }, 30123);
         }
 
         $timeout(function() {
-            theTableauController.miseAJourPeriodique, 300
-        });
+            theTableauController.miseAJourPeriodique();
+        }, 30123);
     } ]);
 
     app.directive('heureEtDate', function($timeout) {

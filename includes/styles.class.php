@@ -39,14 +39,16 @@ class Styles
         }
     }
 
-    public static function setActif($id)
+    public static function setActif($nouveauNomDeFichier)
     {
-        $firePHP = FirePHP::getInstance() ;
-        $actifStm=self::$db->query("update STYLES set ACTIF=0") ;
-        $actifStm=self::$db->prepare("update STYLES set ACTIF=1 where ROWID=:id") ;
-        $actifStm->execute(array(":id" => $id)) ;
+        FirePHP::getInstance()->trace(__METHOD__) ;
+//         $actifStm=self::$db->query("update STYLES set ACTIF=0") ;
+        $actifStm=self::$db->prepare("update STYLES set FICHIER=:fichier where ACTIF=1 ") ;
+        $actifStm->execute(array(":fichier" => $nouveauNomDeFichier)) ;
 
         $actifStm=self::$db->query("update DERNIERCHANGEMENT set HEUREDATE=datetime('now','localtime')") ;
+        
+        
     }
 
     public static function getUnStyle($id)

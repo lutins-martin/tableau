@@ -34,9 +34,16 @@ class WebService {
     }
 
     public function getRequestParameter($parametre, $valeurParDefault = null) {
+        FirePHP::getInstance ( true )->setEnabled ( true );
         if ($_SERVER ['REQUEST_METHOD'] == 'POST') {
             $json = file_get_contents ( 'php://input' );
-            $variables = json_decode ( $json, true );
+            if (strlen ( $json ) != 0) {
+                FirePHP::getInstance ()->log ( $json, 'input' );
+                $variables = json_decode ( $json, true );
+                FirePHP::getInstance ()->log ( $variables, 'POST Variables' );
+            } else {
+                $variables = $_REQUEST ;
+            }
         } else {
             $variables = $_REQUEST;
         }

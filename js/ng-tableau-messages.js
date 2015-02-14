@@ -11,7 +11,7 @@
         return lesMessages;
     };
 
-    app.controller('MessagesController', [ '$http', function($http) {
+    app.controller('MessagesController', [ '$http','$timeout', function($http,$timeout) {
         var theMessageController = this;
 
         this.lesMessages = [];
@@ -77,7 +77,7 @@
 
         this.clearMessage = function() {
             this.edited = null;
-        }
+        } ;
 
         this.select = function(message) {
             this.edited = null;
@@ -99,7 +99,7 @@
                 lengthOfLesMessages++;
             }
             this.allSelected = (this.messagesSelected.length == lengthOfLesMessages);
-        }
+        } ;
 
         this.selectAll = function(all) {
             this.messagesSelected = [];
@@ -115,10 +115,9 @@
                 lengthOfLesMessages++;
             }
             this.allSelected = (this.messagesSelected.length == lengthOfLesMessages);
-        }
+        } ;
 
         this.updateMessage = function() {
-
             $http.post("moteur.php", {
                 action : "sauveMessage",
                 ajax : 1,
@@ -142,7 +141,7 @@
         this.relecture();
     } ]);
 
-    app.directive('lesMessages', function() {
+    app.directive('lesMessages', function($timeout,$http) {
         return {
             restrict : 'E',
             templateUrl : 'lesMessages.html',
@@ -151,7 +150,22 @@
                     return $sce.trustAsHtml(contenu);
                 }
 
-                this.tousLesMessages = readInMessages(this.tousLesMessages);
+                var directiveMessageController = this ;
+                this.tousLesMessages = readInMessages(tousLesMessages);
+                
+                this.relecture = function() {
+                    $http.get("moteur.php",{
+                        params : {
+                            action : "relectureMessages",
+                        }
+                    }).success(function(data){
+                        directiveMessageController.tousLesMessages = readInMessages(data) ;
+                    })
+                }
+                
+                $timeout(function(){
+                    directiveMessageController.relecture() ;
+                },300) ;
 
             } ],
             controllerAs : "messages"
