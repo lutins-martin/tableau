@@ -1,0 +1,47 @@
+<div class="row">
+	<div class="col-md-8 col-sm-12">
+		<form>
+			<table class="table table-stripped table-condensed">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Arrière-plans
+							<button ng-click="backgroundCtrl.effaceBackgrounds()"
+								ng-show="backgroundCtrl.selectedBackgrounds.length">Effacer
+								les images</button>
+						</th>
+						<th>Image</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-class="{active:background.active}"
+						ng-repeat="background in backgroundCtrl.backgrounds">
+						<td><span class="glyphicon glyphicon-unchecked"
+							ng-hide="background.selected"
+							ng-click="backgroundCtrl.select(background)"></span> <span
+							class="glyphicon glyphicon-check" ng-show="background.selected"
+							ng-click="backgroundCtrl.select(background)"></span></td>
+						<td ng-click="backgroundCtrl.changeBackground(background)">{{background.nom}}</td>
+						<td ng-click="backgroundCtrl.changeBackground(background)"><img
+							src="{{background.thumb}}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<form name="ajouterBackground" method="post"
+			action="moteur.php?action=uploadBackground"
+			enctype="multipart/form-data">
+			<table class="table">
+			<tbody>
+			<tr><td>
+			Nouvel image d'arrière-plan: <input type="file" name="backgroundFile">
+			<input type="submit" name="submit" value="télécharger l'image">
+			</td></tr>
+			</tbody>
+			</table>
+		</form>
+		</tr>
+		</form>
+	</div>
+</div>
+<!-- /.row -->
