@@ -160,12 +160,15 @@
                         }
                     }).success(function(data){
                         directiveMessageController.tousLesMessages = readInMessages(data) ;
+                        $timeout(function(){
+                            directiveMessageController.relecture() ;
+                        },30456) ;
                     })
                 }
                 
                 $timeout(function(){
                     directiveMessageController.relecture() ;
-                },300) ;
+                },30456) ;
 
             } ],
             controllerAs : "messages"

@@ -39,7 +39,7 @@
         this.selectionLocal = null;
         this.locauxSelected = [];
         this.allSelected = false;
-        this.dernierChangement = 0 ;
+        this.dernierChangement = 0;
 
         this.tousLesLocaux;
 
@@ -134,6 +134,7 @@
         this.miseAJourPeriodique = function() {
             if (theTableauController.locauxSelected.length == 0) {
                 theTableauController.relecture();
+                theTableauController.relectureMessages();
             }
             $timeout(function() {
                 theTableauController.miseAJourPeriodique();
@@ -158,12 +159,7 @@
                     var currentTimeAndDate = new Date();
                     var minutes = ('0' + currentTimeAndDate.getMinutes()).slice(-2);
                     this.heure = currentTimeAndDate.getHours() + ":" + minutes;
-                    this.jourDeLaSemaine = currentTimeAndDate.toLocaleDateString('fr-CA', {
-                        weekday : "long",
-                        year : "numeric",
-                        month : "long",
-                        day : "numeric"
-                    });
+                    this.jourDeLaSemaine = currentTimeAndDate.getDateEnFrancais();
 
                     var nextMinutes = new Date(currentTimeAndDate.getFullYear(), currentTimeAndDate.getMonth(), currentTimeAndDate
                             .getDate(), currentTimeAndDate.getHours(), currentTimeAndDate.getMinutes() + 1, 00);
@@ -187,3 +183,14 @@
         }
     });
 })();
+
+Date.prototype.getDateEnFrancais = function() {
+    var jourSemaine = Array("dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi");
+    var moisDeLannee = Array("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre",
+            "novembre", "décembre");
+
+    var jour = this.getDay();
+    var mois = this.getMonth();
+
+    return jourSemaine[jour] + " " + this.getDate().toString() + " " + moisDeLannee[mois] + " " + this.getFullYear();
+};
