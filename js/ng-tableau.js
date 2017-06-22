@@ -35,7 +35,7 @@
     } ]);
 
     app.controller('TableauController', [ '$http', '$timeout', function($http, $timeout) {
-        this.locaux = tousLesLocaux.locaux;
+        this.locaux = [] ;
         this.selectionLocal = null;
         this.locauxSelected = [];
         this.allSelected = false;
@@ -50,8 +50,11 @@
                     action : "relecture"
                 }
             }).success(function(data) {
-                if (theTableauController.locauxSelected.length == 0) {
-                    theTableauController.locaux = data.locaux;
+                if (data.locaux.length != 0) {
+                    theTableauController.locaux = [] ;
+                    for(var local in data.locaux) {
+                       theTableauController.locaux.push(data.locaux[local]);
+                    }
                     theTableauController.tousLesLocaux = [];
                     theTableauController.locauxSelected = [];
                     theTableauController.allSelected = false;
@@ -134,7 +137,7 @@
         this.miseAJourPeriodique = function() {
             if (theTableauController.locauxSelected.length == 0) {
                 theTableauController.relecture();
-                theTableauController.relectureMessages();
+                /* theTableauController.relectureMessages(); */
             }
             $timeout(function() {
                 theTableauController.miseAJourPeriodique();
@@ -143,7 +146,7 @@
 
         $timeout(function() {
             theTableauController.miseAJourPeriodique();
-        }, 30123);
+        }, 0);
     } ]);
 
     app.directive('heureEtDate', function($timeout) {
