@@ -27,9 +27,7 @@ class Style extends Element
 
     public function loadFromDatabaseRecord($record)
     {
-        $firePHP = FirePHP::getInstance() ;
 
-        $firePHP->log($record,'record') ;
         if (isset($record['NOM']))
         {
             $this->nom = $record['NOM'] ;
@@ -51,10 +49,8 @@ class Style extends Element
         return $this->actif ;
     }
 
-    public function save()
+    public function save($valueParms = NULL)
     {
-        $firePHP= FirePHP::getInstance() ;
-        $firePHP->trace(__METHOD__) ;
         $values[":fichier"] = $this->nomDuFichierCss ;
         $values[":actif"] = $this->actif ;
         parent::save($values) ;

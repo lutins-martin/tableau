@@ -21,8 +21,6 @@ class PageGroupes extends Page {
     }
 
     private function recevoirLesDonnees() {
-        $firePHP = FirePHP::getInstance ();
-        $firePHP->log ( $_REQUEST, 'param' );
         $groupesAChanger = $this->getRequestParameter ( 'item' );
         
         if (json_decode ( $groupesAChanger )) {
@@ -30,10 +28,8 @@ class PageGroupes extends Page {
         }
         $processed = false;
         if (is_array ( $groupesAChanger )) {
-            $firePHP->log ( $groupesAChanger, "item" );
             
             foreach ( $groupesAChanger as $groupeId => $newgroupe ) {
-                $firePHP->log ( $newgroupe, "groupeId:$groupeId" );
                 
                 if (isset ( $newgroupe ['efface'] )) {
                     $groupe = $this->lesGroupes->getUnGroupe ( $groupeId );
@@ -46,12 +42,10 @@ class PageGroupes extends Page {
                 if (isset ( $newgroupe ['nom'] )) {
                     if (! is_null ( $newgroupe ['nom'] ) && trim ( $newgroupe ['nom'] ) != "") {
                         $groupe = $this->lesGroupes->getUnGroupe ( $groupeId );
-                        $firePHP->log ( $groupe, 'object groupe' );
                         if ($newgroupe ['nom'] != $groupe->getNom ()) {
                             $groupe->setNom ( $newgroupe ['nom'] );
                             $groupe->save ();
                             $processed = true;
-                            $firePHP->log ( $groupe, 'object groupe' );
                         }
                     }
                 }
@@ -64,7 +58,6 @@ class PageGroupes extends Page {
             $groupesAAjouter = array() ;
             $groupesAAjouter[] = $decoded ;
         }
-        $firePHP->log ( $groupesAAjouter, 'groupes a ajouter' );        
         if (is_array ( $groupesAAjouter )) {
             foreach ( $groupesAAjouter as $nouveauGroupe ) {
                 if (isset ( $nouveauGroupe ['nom'] )) {
@@ -85,7 +78,6 @@ class PageGroupes extends Page {
     }
 
     public function afficheLeContenu() {
-        $firePHP = FirePHP::getInstance ();
         $listeGroupes = $this->lesGroupes->getLesGroupes ();
         ?>
 <div id="wrapper" class="row">

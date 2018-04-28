@@ -34,7 +34,7 @@ class Groupe extends Element
         $groupes->register($this) ;
     }
 
-    public function save()
+    public function save($valueParms = NULL)
     {
         parent::save() ;
 

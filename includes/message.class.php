@@ -15,12 +15,10 @@ class Message
 
     public function __construct($id=null)
     {
-        $firePHP = FirePHP::getInstance() ;
         $this->db=Database::getInstance() ;
         if(!is_null($id))
         {
             $loadStm = $this->db->prepare(self::QUERY_LOAD) ;
-            $firePHP->log($loadStm,'load statement') ;
             $loadStm->execute(array(":id" => $id)) ;
 
             $messageRecord = $loadStm->fetch(PDO::FETCH_ASSOC) ;
@@ -33,9 +31,7 @@ class Message
         {
             $loadStm = $this->db->query(self::QUERY_LOAD_NOUVEAU) ;
             $lastTitre = $loadStm->fetch(PDO::FETCH_COLUMN) ;
-            $firePHP->log($lastTitre,'last id') ;
             preg_match("/\((\d+)\)$/",$lastTitre,$lastId) ;
-            $firePHP->log($lastId,'last id') ;
             if(isset($lastId[1])) $Id=$lastId[1]+1;
             else $Id=1 ;
             $this->titre = "nouveau message ($Id)" ;
@@ -47,9 +43,6 @@ class Message
 
     public function loadFromDatabaseRecord($databaseRecord)
     {
-        $firePHP = FirePHP::getInstance() ;
-        $firePHP->trace(__METHOD__) ;
-        $firePHP->log($databaseRecord,'database record') ;
         if(is_array($databaseRecord))
         {
             $this->id=$databaseRecord['rowid'] ;
@@ -65,7 +58,6 @@ class Message
 
     public function save()
     {
-        $firePHP = FirePHP::getInstance() ;
         $values[":titre"] = $this->titre ;
         $values[":message"] = $this->message ;
         $values[":debut"] = strftime("%F",$this->debut) ;

@@ -72,7 +72,7 @@ class Educatrice extends Element
         }
     }
 
-    public function save()
+    public function save($valueParms = NULL)
     {
         parent::save() ;
 

@@ -12,7 +12,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="local in locaux.locaux"
+					<tr ng-repeat="local in locaux.locaux | orderBy: 'name'"
 						ng-click="locaux.toggleSelectedLocal(local)">
 						<form name="modifierLocal" ng-show="">
 						<td><span class="glyphicon glyphicon-unchecked"

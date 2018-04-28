@@ -16,7 +16,6 @@ class Styles
 
     private function __construct()
     {
-        $firePHP = FirePHP::getInstance() ;
         self::$db = Database::getInstance() ;
         /* est-ce que la table Styles existe? */
         $existsStm = self::$db->query("select NAME from SQLITE_MASTER where TYPE='table' and NAME='STYLES'") ;
@@ -26,28 +25,22 @@ class Styles
 
         $existsStm = self::$db->query("select NAME from SQLITE_MASTER where TYPE='table' and NAME='DERNIERCHANGEMENT'") ;
 
-        $firePHP->log($existsStm,'existsstm DERNIERCHANGEMENT') ;
         $existsRec = $existsStm->fetchAll(PDO::FETCH_ASSOC) ;
 
-        $firePHP->log($existsRec,'DERNIERCHANGEMENT exists') ;
         if(count($existsRec)==0)
         {
             $stm = self::$db->query(self::CREATELASTSTYLECHANGE) ;
-            $firePHP->log($stm,'created') ;
             $stm = self::$db->query("insert into DERNIERCHANGEMENT (HEUREDATE) values (datetime('now','localtime'))") ;
-            $firePHP->log($stm,"updated") ;
         }
     }
 
     public static function setActif($nouveauNomDeFichier)
     {
-        FirePHP::getInstance()->trace(__METHOD__) ;
 //         $actifStm=self::$db->query("update STYLES set ACTIF=0") ;
         $actifStm=self::$db->prepare("update STYLES set FICHIER=:fichier where ACTIF=1 ") ;
         $actifStm->execute(array(":fichier" => $nouveauNomDeFichier)) ;
 
         $actifStm=self::$db->query("update DERNIERCHANGEMENT set HEUREDATE=datetime('now','localtime')") ;
-        
         
     }
 

@@ -81,7 +81,7 @@ foreach($lesMessageAujourdhui as $message)
 <?php $this->afficheLeMenu() ;
     }
 
-    public function afficheLeMenu()
+    public function afficheLeMenu($extraClass='')
     {
         parent::afficheLeMenu("pied") ;
     }

@@ -17,7 +17,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="educatrice in educatrices.lesEducatrices"
+					<tr ng-repeat="educatrice in educatrices.lesEducatrices | orderBy : 'nom'"
 						ng-click="educatrices.toggleSelectedEducatrice(educatrice)">
 						<form name="modifierEducatrice" ng-show="">
 							<td><span class="glyphicon glyphicon-unchecked"

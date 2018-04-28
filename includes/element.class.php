@@ -80,15 +80,12 @@ abstract class Element
 
     public function save($valueParms=null)
     {
-        $firePHP = FirePHP::getInstance() ;
-        $firePHP->log($this,'element') ;
         $values[":nom"] = $this->nom ;
         if(is_array($valueParms))
         {
             foreach($valueParms as $nom => $valeur)
             $values[$nom] = $valeur ;
         }
-        $firePHP->log($values,'values') ;
         if($this->loaded)
         {
             $values[':rowid'] = $this->id ;
@@ -96,7 +93,6 @@ abstract class Element
         }
         else
             $query = $this->queryInsert ; //self::INSERT ;
-        $firePHP->log($query,'query') ;
         $saveStatement = $this->db->prepare($query) ;
         $saveStatement->execute($values) ;
         $rowId=$saveStatement->fetch(PDO::FETCH_COLUMN) ;

@@ -82,7 +82,7 @@
         this.updateLocaux = function() {
             var local = {};
             this.locauxSelected.forEach(function(educatriceIndex) {
-                local[educatriceIndex] = theTableauController.selectionLocal;
+                local[educatriceIndex] = theTableauController.selectionLocal.value;
             });
             $http.post("moteur.php", {
                 action : "changerLocal",
@@ -98,7 +98,7 @@
             this.allSelected = selectAll;
             for (index in this.locaux) {
                 this.locaux[index].selected = selectAll;
-                if (selectAll) this.locauxSelected.push(index);
+                if (selectAll) this.locauxSelected.push(this.locaux[index].id);
             }
             if (selectAll) this.loadAllLocaux();
         };
@@ -127,7 +127,7 @@
             var currentNumberOfSelected = this.locauxSelected.length;
             var locauxSelected = [];
             for (key in this.locaux) {
-                if (this.locaux[key].selected) locauxSelected.push(key);
+                if (this.locaux[key].selected) locauxSelected.push(this.locaux[key].id);
             }
             this.locauxSelected = locauxSelected;
             if ((currentNumberOfSelected == 0) && (locauxSelected.length != 0)) this.loadAllLocaux();

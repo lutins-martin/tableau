@@ -21,8 +21,6 @@ class Messages
 
         if(count($existsRec)==0) self::$db->query(self::QUERY_CREATE_MESSAGES) ;
 
-        $firePHP = FirePHP::getInstance() ;
-
         try
         {
             $colonneExiste = self::$db->query("select MODIFIELE from MESSAGES") ;
@@ -35,7 +33,6 @@ class Messages
         {
             $firePHP->log($e,"exception") ;
         }
-
     }
 
     public static function getInstance()
@@ -60,7 +57,6 @@ class Messages
     {
         if(count(self::$lesMessages)==0)
         {
-            FirePHP::getInstance()->log($aujourdhui,'aujourd\'hui') ;
             $tousLesMessageStm = self::$db->query("select ROWID,TITRE,MESSAGE,DEBUT,FIN,MODIFIELE from MESSAGES order by DEBUT asc") ;
             $lesMessagesBruts = $tousLesMessageStm->fetchAll(PDO::FETCH_ASSOC) ;
             foreach($lesMessagesBruts as $unMessageRec)

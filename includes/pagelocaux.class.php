@@ -12,7 +12,6 @@ class PageLocaux extends Page
     public function init()
     {
         parent::init() ;
-        FirePHP::getInstance()->trace(__METHOD__) ;
         $this->lesLocaux = Locaux::getInstance() ;
 
         $this->addJs("ajoute.js") ;
@@ -25,11 +24,9 @@ class PageLocaux extends Page
         $locauxAChanger= $this->getRequestParameter('item') ;
 
         $processed = false ;
-        FirePHP::getInstance()->log($locauxAChanger,'locaux a changer') ;
         if(json_decode($locauxAChanger)) {
             $locauxAChanger = json_decode($locauxAChanger,true);
         }
-        FirePHP::getInstance()->log($locauxAChanger,'locaux a changer') ;
         
         if (is_array($locauxAChanger))
         {
@@ -66,7 +63,6 @@ class PageLocaux extends Page
             $decoded = json_decode($locauxAAjouter,true) ;
             $locauxAAjouter = array($decoded) ;
         }
-        FirePHP::getInstance()->log($locauxAAjouter,'locaux a ajouter') ;
         
         if(is_array($locauxAAjouter))
         {
@@ -98,7 +94,6 @@ class PageLocaux extends Page
 
     public function afficheLeContenu()
     {
-        $firePHP = FirePHP::getInstance() ;
         ?>
 <div id="wrapper" class="row">
     <div id="hd">

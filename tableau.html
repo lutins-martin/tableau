@@ -13,7 +13,7 @@
 						<th ng-hide="tableau.localSelected()">Local</th>
 						<th ng-show="tableau.localSelected()"><select
 							ng-model="tableau.selectionLocal"
-							ng-options="local.value as local.name for local in tableau.tousLesLocaux"></select>
+							ng-options="local as local.name for local in tableau.tousLesLocaux track by local.value"></select>
 							<button ng-show="tableau.localSelected()"
 								ng-click="tableau.relecture()">
 								<span class="glyphicon glyphicon-remove"></span>

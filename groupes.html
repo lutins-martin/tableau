@@ -12,7 +12,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="groupe in groupes.groupes"
+					<tr ng-repeat="groupe in groupes.groupes | orderBy : 'nom'"
 						ng-click="groupes.toggleSelectedgroupe(groupe)">
 						<form name="modifiergroupe" ng-show="">
 						<td><span class="glyphicon glyphicon-unchecked"
