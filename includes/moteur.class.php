@@ -259,7 +259,13 @@ class Moteur extends WebService {
                 $bg ['nom'] = preg_replace ( "/.jpg$/", "", basename ( $background ) );
                 if (basename ( $background ) == $activeImage) {
                     $bg ['active'] = true;
-                }
+		}
+		$style = new Style($bg['nom']) ;
+		if(!$style->isLoaded()) {
+		   $style->setNom($bg['nom']) ;
+		   $style->setNomDeFichier(basename($bg['file'])) ;
+		   $style->save();
+		}
                 $output ['backgrounds'] [] = $bg;
                     /*$count++ ;
                     if($count == 50) {

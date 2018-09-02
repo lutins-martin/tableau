@@ -36,8 +36,8 @@ class Styles
 
     public static function setActif($nouveauNomDeFichier)
     {
-//         $actifStm=self::$db->query("update STYLES set ACTIF=0") ;
-        $actifStm=self::$db->prepare("update STYLES set FICHIER=:fichier where ACTIF=1 ") ;
+        $actifStm=self::$db->query("update STYLES set ACTIF=0") ;
+        $actifStm=self::$db->prepare("update STYLES set ACTIF=1 where FICHIER=:fichier  ") ;
         $actifStm->execute(array(":fichier" => $nouveauNomDeFichier)) ;
 
         $actifStm=self::$db->query("update DERNIERCHANGEMENT set HEUREDATE=datetime('now','localtime')") ;
